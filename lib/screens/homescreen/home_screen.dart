@@ -9,6 +9,10 @@ import 'package:job_application_block/screens/homescreen/block/home_event.dart';
 import 'package:job_application_block/screens/homescreen/block/home_state.dart';
 import 'package:job_application_block/screens/homescreen/subforms/basic_details.dart';
 import 'package:job_application_block/screens/homescreen/subforms/education_datails.dart';
+import 'package:job_application_block/screens/homescreen/subforms/language_known.dart';
+import 'package:job_application_block/screens/homescreen/subforms/preference.dart';
+import 'package:job_application_block/screens/homescreen/subforms/reference_contact.dart';
+import 'package:job_application_block/screens/homescreen/subforms/technology_you_know.dart';
 import 'package:job_application_block/screens/homescreen/subforms/work_experince.dart';
 
 import '../../constants/strings.dart';
@@ -93,7 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       Text(
                         "${state.selectedForm}",
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                       ),
                       Container(
                         decoration: BoxDecoration(
@@ -186,7 +190,17 @@ class _HomeScreenState extends State<HomeScreen> {
                     formKey: _formKey,
                   );
                 } else if (state.selectedForm == 1) {
-                  return EducationDatails();
+                  return const EducationDatails();
+                } else if (state.selectedForm == 2) {
+                  return const LanguageKnown();
+                } else if (state.selectedForm == 3) {
+                  return TechnologyYouKnow();
+                } else if (state.selectedForm == 5) {
+                  return ReferenceContact();
+                } else if (state.selectedForm == 6) {
+                  return Preference();
+                } else if (state.selectedForm == 4) {
+                  return const WorkExperince();
                 } else {
                   return const Text("hello");
                 }

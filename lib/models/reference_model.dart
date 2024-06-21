@@ -1,9 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 class ReferenceModelList {
-  List<ReferenceModel> data = [];
-
-  ReferenceModelList({required this.data});
+  List<ReferenceModel> data = [ReferenceModel()];
 }
 
 class ReferenceModel {

@@ -1,9 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 class WorkExperienceList {
-  List<WorkExperience> data = [];
-
-  WorkExperienceList({required this.data});
+  List<WorkExperience> data = [WorkExperience()];
 }
 
 class WorkExperience {

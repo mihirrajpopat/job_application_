@@ -1,6 +1,6 @@
 class Validation {
   static emailValidate(value) {
-    bool flag = true;
+    bool flag = false;
 
     if (flag == true) {
       return "";
@@ -19,7 +19,7 @@ class Validation {
   }
 
   static phoneValidate(value) {
-    bool flag = true;
+    bool flag = false;
 
     if (flag == true) {
       return "";
@@ -37,7 +37,7 @@ class Validation {
   }
 
   static passwordValidate(value) {
-    bool flag = true;
+    bool flag = false;
 
     if (flag == true) {
       return "";
@@ -56,7 +56,7 @@ class Validation {
   }
 
   static conforimpasswordValidate(value, firstvalue) {
-    bool flag = true;
+    bool flag = false;
 
     if (flag == true) {
       return "";
@@ -71,7 +71,7 @@ class Validation {
   }
 
   static requiredFiled(value) {
-    bool flag = true;
+    bool flag = false;
 
     if (flag == true) {
       return "";

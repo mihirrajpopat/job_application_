@@ -1,8 +1,10 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:job_application_block/screens/homescreen/block/home_event.dart';
 
+import '../../../lib/maxlimitnumber.dart';
 import '../../../lib/textformfiled_widget.dart';
 import '../../../lib/validation_function.dart';
 import '../block/home_bloc.dart';
@@ -61,10 +63,15 @@ class EducationDatails extends StatelessWidget {
                                         controller:
                                             state.formDataModel.educationModel.educationModelList[index].passingYear,
                                         lable: "Passing Year",
+                                        format: [
+                                          DateTextFormatter(),
+                                        ],
+                                        type: TextInputType.number,
                                         hint: "2018",
                                         checkValidation: (value) {
                                           return Validation.requiredFiled(value);
                                         },
+                                        maxLength: 4,
                                       ), //lastname
                                       const SizedBox(
                                         height: 10,
@@ -73,6 +80,12 @@ class EducationDatails extends StatelessWidget {
                                         controller:
                                             state.formDataModel.educationModel.educationModelList[index].percentage,
                                         lable: "Percentage",
+                                        type: TextInputType.number,
+                                        maxLength: 3,
+                                        format: [
+                                          // Other formatters
+                                          NumericRangeFormatter(min: 1, max: 100),
+                                        ],
                                         hint: "69",
                                       ), //designation
                                       const SizedBox(
@@ -101,10 +114,11 @@ class EducationDatails extends StatelessWidget {
                                     )
                                   : Row(
                                       children: [
-                                        const Text("remove"),
+                                        const Text("Remove"),
                                         IconButton(
                                           onPressed: () {
-                                            BlocProvider.of<HomeBloc>(context).add(HomeAddEducationEvent());
+                                            BlocProvider.of<HomeBloc>(context)
+                                                .add(HomeRemoveEducationEvent(index: index));
                                           },
                                           icon: const Icon(
                                             Icons.remove_circle_outline,

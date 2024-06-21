@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class TextFormFiledWidget extends StatelessWidget {
   String? lable;
   IconData? suffix;
   bool visiblity = true;
   final controller;
+  TextInputType? type;
+  List<TextInputFormatter> format;
+  int maxLength;
 
   String? hint;
   final String? Function(String?)? checkValidation;
@@ -12,15 +16,17 @@ class TextFormFiledWidget extends StatelessWidget {
 
   // final Widget? suffix;
 
-  TextFormFiledWidget({
-    required this.lable,
-    this.suffix,
-    this.checkValidation,
-    this.iconbutton,
-    this.visiblity = false,
-    this.controller,
-    this.hint = "",
-  });
+  TextFormFiledWidget(
+      {required this.lable,
+      this.suffix,
+      this.checkValidation,
+      this.iconbutton,
+      this.visiblity = false,
+      this.controller,
+      this.hint = "",
+      this.format = const [],
+      this.maxLength = 150,
+      this.type = TextInputType.text});
 
   @override
   Widget build(BuildContext context) {
@@ -52,11 +58,15 @@ class TextFormFiledWidget extends StatelessWidget {
                   ],
                 ),
                 child: TextFormField(
+                  maxLength: maxLength,
+                  inputFormatters: format,
+                  keyboardType: type,
                   cursorColor: Colors.grey,
                   controller: controller,
                   textAlign: TextAlign.start,
                   obscureText: visiblity,
                   decoration: InputDecoration(
+                    counterText: "",
                     fillColor: Colors.white,
                     filled: true,
                     hintText: "$hint",

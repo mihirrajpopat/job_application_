@@ -15,8 +15,8 @@ class BasicDetailModel {
   int grpId;
 
   BasicDetailModel(
-      {this.radioGenderValue = "male",
-      this.selectedReletionItem = "single",
-      this.selectedStateItem = "gujrat",
+      {this.radioGenderValue = "Male",
+      this.selectedReletionItem = "Single",
+      this.selectedStateItem = "Gujrat",
       this.grpId = 1});
 }

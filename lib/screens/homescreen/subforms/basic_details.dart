@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:job_application_block/screens/homescreen/block/home_bloc.dart';
@@ -24,17 +25,17 @@ class BasicDetails extends StatefulWidget {
 class _BasicDetailsState extends State<BasicDetails> {
   TextEditingController mealDate = TextEditingController();
 
-  var city = ["gujrat", "rajsthan"];
-  var relationship = ["single", "merried"];
+  var city = ["Gujrat", "Rajsthan"];
+  var relationship = ["Single", "Merried"];
 
   List<CheckboxItem> fList = [
     CheckboxItem(
       index: 1,
-      name: "male",
+      name: "Male",
     ),
     CheckboxItem(
       index: 2,
-      name: "female",
+      name: "Female",
     ),
   ];
 
@@ -66,6 +67,9 @@ class _BasicDetailsState extends State<BasicDetails> {
                             controller: state.formDataModel.basicDetailModel.firstName,
                             lable: "First Name",
                             hint: "Enter Your Name",
+                            format: [
+                              FilteringTextInputFormatter(RegExp("[a-zA-Z]"), allow: true),
+                            ],
                             checkValidation: (value) {
                               return Validation.requiredFiled(value);
                             },
@@ -77,6 +81,9 @@ class _BasicDetailsState extends State<BasicDetails> {
                             controller: state.formDataModel.basicDetailModel.lastName,
                             lable: "Last Name",
                             hint: "Enter Last Name",
+                            format: [
+                              FilteringTextInputFormatter(RegExp("[a-zA-Z]"), allow: true),
+                            ],
                             checkValidation: (value) {
                               return Validation.requiredFiled(value);
                             },
@@ -87,6 +94,9 @@ class _BasicDetailsState extends State<BasicDetails> {
                           TextFormFiledWidget(
                             controller: state.formDataModel.basicDetailModel.designation,
                             lable: "Designation",
+                            format: [
+                              FilteringTextInputFormatter(RegExp("[a-zA-Z]"), allow: true),
+                            ],
                             hint: "Devloper",
                           ), //designation
                           const SizedBox(
@@ -121,6 +131,8 @@ class _BasicDetailsState extends State<BasicDetails> {
                           TextFormFiledWidget(
                             controller: state.formDataModel.basicDetailModel.phoneNumber,
                             lable: "Phone Number",
+                            maxLength: 10,
+                            type: TextInputType.phone,
                             hint: "Enter Your Mobile Number",
                             checkValidation: (value) {
                               return Validation.phoneValidate(value);
@@ -132,8 +144,14 @@ class _BasicDetailsState extends State<BasicDetails> {
                           TextFormFiledWidget(
                             controller: state.formDataModel.basicDetailModel.zipCode,
                             hint: "364001",
+                            type: TextInputType.phone,
+                            maxLength: 6,
                             lable: "Zip Code",
                           ), //Zip
+
+                          const SizedBox(
+                            height: 10,
+                          ),
 
                           Row(
                             children: [
