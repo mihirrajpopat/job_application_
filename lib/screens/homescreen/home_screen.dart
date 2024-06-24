@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:job_application_block/constants/routes.dart';
 import 'package:job_application_block/lib/common_widgets/svg_image.dart';
 import 'package:job_application_block/screens/homescreen/block/home_bloc.dart';
 import 'package:job_application_block/screens/homescreen/block/home_event.dart';
@@ -14,9 +15,12 @@ import 'package:job_application_block/screens/homescreen/subforms/preference.dar
 import 'package:job_application_block/screens/homescreen/subforms/reference_contact.dart';
 import 'package:job_application_block/screens/homescreen/subforms/technology_you_know.dart';
 import 'package:job_application_block/screens/homescreen/subforms/work_experince.dart';
+import 'package:sqflite/sqflite.dart';
 
 import '../../constants/strings.dart';
+import '../../database/db_helper.dart';
 import '../../lib/rounded_btn_widget.dart';
+import '../preview_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -26,10 +30,13 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  DatabaseHelper db = DatabaseHelper();
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    db.initDB();
 
     BlocProvider.of<HomeBloc>(context).add(HomeInitialEvent());
   }
@@ -201,6 +208,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   return Preference();
                 } else if (state.selectedForm == 4) {
                   return const WorkExperince();
+                } else if (state.selectedForm == 7) {
+                  return PreviewScreen();
                 } else {
                   return const Text("hello");
                 }

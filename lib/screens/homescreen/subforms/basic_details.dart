@@ -102,13 +102,72 @@ class _BasicDetailsState extends State<BasicDetails> {
                           const SizedBox(
                             height: 10,
                           ),
-                          TextFormFiledWidget(
-                            controller: state.formDataModel.basicDetailModel.address,
-                            lable: "Address",
-                            hint: "4354 Gaytrinagar Bhavnagar",
-                            checkValidation: (value) {
-                              return Validation.requiredFiled(value);
-                            },
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Address",
+                              ),
+                              const SizedBox(
+                                height: 6,
+                              ),
+                              Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Expanded(
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(6.0),
+                                        color: Colors.white,
+                                        boxShadow: const [
+                                          BoxShadow(
+                                            color: Color.fromRGBO(207, 207, 207, 0.9),
+                                            offset: Offset(1, 1),
+                                            blurRadius: 3,
+                                            spreadRadius: 0,
+                                          ),
+                                        ],
+                                      ),
+                                      child: TextFormField(
+                                        maxLines: 6,
+                                        cursorColor: Colors.grey,
+                                        controller: state.formDataModel.basicDetailModel.address,
+                                        textAlign: TextAlign.start,
+                                        decoration: InputDecoration(
+                                          counterText: "",
+                                          fillColor: Colors.white,
+                                          filled: true,
+                                          hintText: "Gaytrinagr Bhavnagar",
+                                          hintStyle: const TextStyle(color: Color.fromRGBO(0, 0, 0, 0.3)),
+                                          contentPadding: const EdgeInsets.only(left: 20),
+                                          border: OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(5),
+                                            borderSide: const BorderSide(
+                                              width: 1,
+                                              color: Colors.red,
+                                            ),
+                                          ),
+                                          enabledBorder: OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(5),
+                                            borderSide: const BorderSide(
+                                              width: 1,
+                                              color: Color.fromRGBO(0, 0, 0, 0.03),
+                                            ),
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(5),
+                                            borderSide: const BorderSide(width: 1, color: Colors.grey),
+                                          ),
+                                        ),
+                                        validator: (value) {
+                                          return Validation.requiredFiled(value);
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
                           const SizedBox(
                             height: 10,
@@ -192,44 +251,58 @@ class _BasicDetailsState extends State<BasicDetails> {
                               const SizedBox(
                                 height: 10,
                               ),
-                              TextField(
-                                readOnly: true,
-                                controller: state.formDataModel.basicDetailModel.dateOfBirth,
-                                onTap: () async {
-                                  DateTime? date1 = await showDatePicker(
-                                    context: context,
-                                    initialDate: DateTime.now(),
-                                    firstDate: DateTime(2000),
-                                    lastDate: DateTime(2025),
-                                  );
+                              Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(6.0),
+                                  color: Colors.white,
+                                  boxShadow: const [
+                                    BoxShadow(
+                                      color: Color.fromRGBO(207, 207, 207, 0.9),
+                                      offset: Offset(1, 1),
+                                      blurRadius: 3,
+                                      spreadRadius: 0,
+                                    ),
+                                  ],
+                                ),
+                                child: TextField(
+                                  readOnly: true,
+                                  controller: state.formDataModel.basicDetailModel.dateOfBirth,
+                                  onTap: () async {
+                                    DateTime? date1 = await showDatePicker(
+                                      context: context,
+                                      initialDate: DateTime.now(),
+                                      firstDate: DateTime(2000),
+                                      lastDate: DateTime(2025),
+                                    );
 
-                                  state.formDataModel.basicDetailModel.dateOfBirth.text =
-                                      DateFormat('MM/dd/yyy').format(date1!);
-                                },
-                                decoration: InputDecoration(
-                                  suffixIcon: Icon(Icons.calendar_month),
-                                  fillColor: Colors.white,
-                                  filled: true,
-                                  hintText: "DD/MM/YYY",
-                                  hintStyle: const TextStyle(color: Color.fromRGBO(0, 0, 0, 0.3)),
-                                  contentPadding: const EdgeInsets.only(left: 20),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(5),
-                                    borderSide: const BorderSide(
-                                      width: 1,
-                                      color: Colors.red,
+                                    state.formDataModel.basicDetailModel.dateOfBirth.text =
+                                        DateFormat('MM/dd/yyy').format(date1!);
+                                  },
+                                  decoration: InputDecoration(
+                                    suffixIcon: Icon(Icons.calendar_month),
+                                    fillColor: Colors.white,
+                                    filled: true,
+                                    hintText: "DD/MM/YYY",
+                                    hintStyle: const TextStyle(color: Color.fromRGBO(0, 0, 0, 0.3)),
+                                    contentPadding: const EdgeInsets.only(left: 20),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(5),
+                                      borderSide: const BorderSide(
+                                        width: 1,
+                                        color: Colors.red,
+                                      ),
                                     ),
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(5),
-                                    borderSide: const BorderSide(
-                                      width: 1,
-                                      color: Color.fromRGBO(0, 0, 0, 0.03),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(5),
+                                      borderSide: const BorderSide(
+                                        width: 1,
+                                        color: Color.fromRGBO(0, 0, 0, 0.03),
+                                      ),
                                     ),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(5),
-                                    borderSide: const BorderSide(width: 0.1, color: Colors.grey),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(5),
+                                      borderSide: const BorderSide(width: 0.1, color: Colors.grey),
+                                    ),
                                   ),
                                 ),
                               ),
@@ -238,13 +311,26 @@ class _BasicDetailsState extends State<BasicDetails> {
                           const SizedBox(
                             height: 15,
                           ),
-                          Row(
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               const Text("State"),
                               const SizedBox(
-                                width: 27,
+                                height: 6,
                               ),
-                              Expanded(
+                              Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(6.0),
+                                  color: Colors.white,
+                                  boxShadow: const [
+                                    BoxShadow(
+                                      color: Color.fromRGBO(207, 207, 207, 0.9),
+                                      offset: Offset(1, 1),
+                                      blurRadius: 3,
+                                      spreadRadius: 0,
+                                    ),
+                                  ],
+                                ),
                                 child: DropdownButtonFormField<String>(
                                   padding: EdgeInsets.zero,
                                   value: state.formDataModel.basicDetailModel.selectedStateItem,
@@ -277,13 +363,26 @@ class _BasicDetailsState extends State<BasicDetails> {
                           const SizedBox(
                             height: 15,
                           ),
-                          Row(
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               const Text("Relation"),
                               const SizedBox(
-                                width: 10,
+                                height: 10,
                               ),
-                              Expanded(
+                              Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(6.0),
+                                  color: Colors.white,
+                                  boxShadow: const [
+                                    BoxShadow(
+                                      color: Color.fromRGBO(207, 207, 207, 0.9),
+                                      offset: Offset(1, 1),
+                                      blurRadius: 3,
+                                      spreadRadius: 0,
+                                    ),
+                                  ],
+                                ),
                                 child: DropdownButtonFormField<String>(
                                   padding: EdgeInsets.zero,
                                   value: state.formDataModel.basicDetailModel.selectedReletionItem,

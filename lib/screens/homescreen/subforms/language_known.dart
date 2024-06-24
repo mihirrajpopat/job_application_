@@ -8,25 +8,12 @@ import '../block/home_bloc.dart';
 import '../block/home_event.dart';
 import '../block/home_state.dart';
 
-List<CheckboxItem> fList = [
-  CheckboxItem(
-    index: 1,
-    name: "male",
-  ),
-  CheckboxItem(
-    index: 2,
-    name: "female",
-  ),
-];
-String radioItem = 'male';
-
 class LanguageKnown extends StatelessWidget {
   const LanguageKnown({super.key});
 
   @override
   Widget build(BuildContext context) {
     int index = 0;
-    int index1 = 0;
 
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
@@ -56,7 +43,7 @@ class LanguageKnown extends StatelessWidget {
                                             .map((key) => Row(
                                                   children: [
                                                     SizedBox(
-                                                      width: 90,
+                                                      width: 110,
                                                       child: Row(
                                                         children: [
                                                           SizedBox(
@@ -70,8 +57,7 @@ class LanguageKnown extends StatelessWidget {
                                                               ),
                                                               value: line[key],
                                                               onChanged: (bool? value) {
-                                                                context.read<HomeBloc>().add(HomeLanguageCheckboxEvent(
-                                                                    value: value!, index: index, key: key));
+                                                                context.read<HomeBloc>().add(HomeAddLanguageEvent());
 
                                                                 line[key] = value!;
                                                               },

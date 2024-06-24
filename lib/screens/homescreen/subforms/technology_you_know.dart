@@ -10,69 +10,82 @@ import '../block/home_state.dart';
 class TechnologyYouKnow extends StatelessWidget {
   TechnologyYouKnow({super.key});
 
-  List<CheckboxItem> fList = [
-    CheckboxItem(
-      index: 1,
-      name: "male",
-    ),
-    CheckboxItem(
-      index: 2,
-      name: "female",
-    ),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
-        return ListView.builder(
-          itemCount: state.formDataModel.technologyYouKnow.technology.length,
-          shrinkWrap: true,
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10, bottom: 15),
-              child: DottedBorder(
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    child: Row(
-                      children: [
-                        Text(state.formDataModel.technologyYouKnow.technology[index]),
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              children: state.formDataModel.technologyYouKnow.checkbox[index].data
-                                  .map((data) => Container(
-                                        width: 110,
-                                        child: RadioListTile(
-                                          contentPadding: EdgeInsets.zero,
-                                          title: Text("${data.name}"),
-                                          visualDensity: const VisualDensity(
-                                            horizontal: VisualDensity.minimumDensity,
-                                            vertical: VisualDensity.minimumDensity,
-                                          ),
-                                          groupValue: state.formDataModel.basicDetailModel.grpId,
-                                          dense: true,
-                                          value: data,
-                                          onChanged: (val) {
-                                            BlocProvider.of<HomeBloc>(context).add(HomeChangeGenderEventEducation(
-                                                grpid: data.index!, radioGenderValue: data.name!));
-                                          },
-                                        ),
-                                      ))
-                                  .toList(),
-                            ),
-                          ),
-                        ),
-                      ],
+        return Expanded(
+          child: ListView.builder(
+            itemCount: state.formDataModel.technologyModelList.data.length,
+            shrinkWrap: true,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.only(left: 15, right: 15),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 60,
+                      child: Text("${state.formDataModel.technologyYouKnow.technology[index]}"),
                     ),
-                  ),
+                    Container(
+                      width: 50,
+                      child: Radio(
+                        visualDensity: const VisualDensity(
+                          horizontal: VisualDensity.minimumDensity,
+                          vertical: VisualDensity.minimumDensity,
+                        ),
+                        groupValue: state.formDataModel.technologyModelList.data[index].know,
+                        value: "Beginer",
+                        onChanged: (val) {
+                          BlocProvider.of<HomeBloc>(context)
+                              .add(HomeChangeGenderEventEducation(index: index, radioValue: val.toString()));
+                        },
+                      ),
+                    ),
+                    Container(
+                      width: 60,
+                      child: Text("Beginer"),
+                    ),
+                    Container(
+                      width: 50,
+                      child: Radio(
+                        visualDensity: const VisualDensity(
+                          horizontal: VisualDensity.minimumDensity,
+                          vertical: VisualDensity.minimumDensity,
+                        ),
+                        groupValue: state.formDataModel.technologyModelList.data[index].know,
+                        value: "mediator",
+                        onChanged: (val) {
+                          BlocProvider.of<HomeBloc>(context)
+                              .add(HomeChangeGenderEventEducation(index: index, radioValue: val.toString()));
+                        },
+                      ),
+                    ),
+                    Container(
+                      width: 66,
+                      child: Text("Meadiator"),
+                    ),
+                    Container(
+                      width: 50,
+                      child: Radio(
+                        visualDensity: const VisualDensity(
+                          horizontal: VisualDensity.minimumDensity,
+                          vertical: VisualDensity.minimumDensity,
+                        ),
+                        groupValue: state.formDataModel.technologyModelList.data[index].know,
+                        value: "Export",
+                        onChanged: (val) {
+                          BlocProvider.of<HomeBloc>(context)
+                              .add(HomeChangeGenderEventEducation(index: index, radioValue: val.toString()));
+                        },
+                      ),
+                    ),
+                    Text("Export"),
+                  ],
                 ),
-              ),
-            );
-          },
+              );
+            },
+          ),
         );
       },
     );

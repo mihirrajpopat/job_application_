@@ -28,3 +28,33 @@ class TechnologyYouKnowModel {
 
   List<String> technology = ["PHP", "MySql", "Laravel", "Oracle"];
 }
+
+class TechnologyModel {
+  String techonologyName;
+  String know;
+
+  TechnologyModel({required this.techonologyName, this.know = ""});
+}
+
+class TechnologyModelList {
+  List<TechnologyModel> data = [
+    TechnologyModel(techonologyName: "Php"),
+    TechnologyModel(techonologyName: "MySql"),
+    TechnologyModel(techonologyName: "Laravel"),
+    TechnologyModel(techonologyName: "Oracle")
+  ];
+
+  Map<String, dynamic> getTopTechnologyMap() {
+    Map<String, dynamic> educationModelMap = {
+      "techonologyName": [],
+      "know": [],
+    };
+
+    for (int i = 0; i < data.length; i++) {
+      educationModelMap['techonologyName'].add(data[i].techonologyName);
+      educationModelMap['know'].add(data[i].know);
+    }
+
+    return educationModelMap;
+  }
+}

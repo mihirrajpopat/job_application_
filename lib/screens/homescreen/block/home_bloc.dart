@@ -28,6 +28,15 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<HomeLanguageCheckboxEvent>(homeLanguageCheckboxEvent);
     on<HomeAddWorkExperienceEvent>(homeAddWorkExperienceEvent);
     on<HomeRemoveWorkExperienceEvent>(homeRemoveWorkExperienceEvent);
+    on<HomeChangeGenderEventEducation>(homeChangeGenderEventEducation);
+  }
+
+  FutureOr<void> homeChangeGenderEventEducation(HomeChangeGenderEventEducation event, Emitter<HomeState> emit) {
+    // print(" raio valur ${event.radioGenderValue}");
+
+    state.formDataModel.technologyModelList.data[event.index].know = event.radioValue;
+
+    emit(HomeInitialState(formDataModel: state.formDataModel, selectedForm: state.selectedForm));
   }
 
   FutureOr<void> homeChangePageEvent(HomeChangePageEvent event, Emitter<HomeState> emit) {
@@ -40,14 +49,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   FutureOr<void> homeChangeGenderEvent(HomeChangeGenderEvent event, Emitter<HomeState> emit) {
     state.formDataModel.basicDetailModel.radioGenderValue = event.radioGenderValue;
     state.formDataModel.basicDetailModel.grpId = event.grpid;
-
-    emit(HomeInitialState(formDataModel: state.formDataModel, selectedForm: state.selectedForm));
-  }
-
-  FutureOr<void> homeChangeGenderEventEducation(HomeChangeGenderEvent event, Emitter<HomeState> emit) {
-    state.formDataModel.technologyYouKnow.checkbox[0].data[0].name = event.radioGenderValue;
-
-    state.formDataModel.technologyYouKnow.checkbox[0].data[0].index = event.grpid;
 
     emit(HomeInitialState(formDataModel: state.formDataModel, selectedForm: state.selectedForm));
   }

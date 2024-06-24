@@ -22,10 +22,10 @@ class HomeChangeGenderEvent extends HomeEvent {
 }
 
 class HomeChangeGenderEventEducation extends HomeEvent {
-  String radioGenderValue;
-  int grpid;
+  String radioValue;
+  int index;
 
-  HomeChangeGenderEventEducation({required this.radioGenderValue, required this.grpid});
+  HomeChangeGenderEventEducation({required this.radioValue, required this.index});
 }
 
 class HomeAddEducationEvent extends HomeEvent {}

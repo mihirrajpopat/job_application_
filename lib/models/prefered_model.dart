@@ -12,4 +12,15 @@ class PreferedModel {
     this.selectedPreferedLocation = "Gujrat",
     this.department = "Single",
   });
+
+  Map<String, dynamic> PreferedModelMap() {
+    Map<String, dynamic> data = {
+      "noticePerirod": noticePeriod.text,
+      "expectedCtc": expectedCtc.text,
+      "currentCtc": currentCtc.text,
+      "department": department,
+      "preferdLocation": selectedPreferedLocation
+    };
+    return data;
+  }
 }
