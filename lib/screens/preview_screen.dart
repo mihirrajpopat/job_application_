@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:job_application_block/lib/common_widgets/svg_image.dart';
 import 'homescreen/block/home_bloc.dart';
+import 'homescreen/block/home_event.dart';
 import 'homescreen/block/home_state.dart';
 
 class PreviewScreen extends StatefulWidget {
@@ -60,15 +61,22 @@ class _PreviewScreenState extends State<PreviewScreen> {
                             style: TextStyle(fontSize: 18),
                           ),
                           DottedBorder(
+                            color: const Color.fromRGBO(116, 103, 183, 1),
                             child: Column(
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.only(right: 10, top: 5, bottom: 10),
                                   child: Align(
                                     alignment: Alignment.topRight,
-                                    child: SvgImage(
-                                      path: "edit_icon.svg",
-                                      imagecolor: Colors.black,
+                                    child: InkWell(
+                                      onTap: () {
+                                        BlocProvider.of<HomeBloc>(context)
+                                            .add(HomeChangePageEvent(selectedPage: indexo));
+                                      },
+                                      child: SvgImage(
+                                        path: "edit_icon.svg",
+                                        imagecolor: Colors.black,
+                                      ),
                                     ),
                                   ),
                                 ),

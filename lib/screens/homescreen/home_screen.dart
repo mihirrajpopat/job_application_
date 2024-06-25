@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -11,6 +13,7 @@ import 'package:job_application_block/screens/homescreen/block/home_state.dart';
 import 'package:job_application_block/screens/homescreen/subforms/basic_details.dart';
 import 'package:job_application_block/screens/homescreen/subforms/education_datails.dart';
 import 'package:job_application_block/screens/homescreen/subforms/language_known.dart';
+import 'package:job_application_block/screens/homescreen/subforms/listing_data.dart';
 import 'package:job_application_block/screens/homescreen/subforms/preference.dart';
 import 'package:job_application_block/screens/homescreen/subforms/reference_contact.dart';
 import 'package:job_application_block/screens/homescreen/subforms/technology_you_know.dart';
@@ -62,7 +65,25 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       // resizeToAvoidBottomInset: false,
       backgroundColor: const Color.fromRGBO(245, 247, 249, 1),
-
+      floatingActionButton: BlocBuilder<HomeBloc, HomeState>(
+        builder: (context, state) {
+          return state.selectedForm == 8
+              ? Padding(
+                  padding: const EdgeInsets.only(bottom: 60),
+                  child: FloatingActionButton(
+                    onPressed: () {
+                      context.read<HomeBloc>().add((HomeAddCandidate()));
+                    },
+                    child: Icon(
+                      Icons.add,
+                      color: Colors.white,
+                    ),
+                    backgroundColor: Color.fromRGBO(116, 103, 183, 1),
+                  ),
+                )
+              : Container();
+        },
+      ),
       body: BlocBuilder<HomeBloc, HomeState>(
         builder: (context, state) {
           return Column(
@@ -133,61 +154,65 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 15,
-              ),
-              SizedBox(
-                height: 40,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  shrinkWrap: true,
-                  itemCount: 7,
-                  itemBuilder: (context, index) {
-                    if (index <= state.selectedForm) {
-                      cureentColor = Slected;
-                    } else {
-                      cureentColor = unselected;
-                    }
-                    return Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            if (index < state.selectedForm) {
-                              BlocProvider.of<HomeBloc>(context).add(HomeChangePageEvent(selectedPage: index));
-                            } else {
-                              Fluttertoast.showToast(
-                                msg: "Please Fill Current Form First",
-                              );
-                            }
-                          },
-                          child: Container(
-                              height: 30,
-                              width: 30,
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: state.selectedForm == index ? Colors.red : cureentColor),
-                              child: Padding(
-                                padding: const EdgeInsets.all(4.0),
-                                child: SvgImage(
-                                  path: icons[index],
-                                ),
-                              )),
-                        ),
-                        index != 6
-                            ? Container(
-                                height: 5,
-                                width: 25,
-                                decoration: BoxDecoration(
-                                    color: state.selectedForm == index ? Colors.grey : cureentColor,
-                                    shape: BoxShape.rectangle),
-                              )
-                            : Container()
-                      ],
-                    );
-                  },
-                ),
-              ),
+              // const SizedBox(
+              //   height: 15,
+              // ),
+              state.selectedForm <= 6
+                  ? SizedBox(
+                      height: 40,
+                      child: state.selectedForm <= 6
+                          ? ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              shrinkWrap: true,
+                              itemCount: 7,
+                              itemBuilder: (context, index) {
+                                if (index <= state.selectedForm) {
+                                  cureentColor = Slected;
+                                } else {
+                                  cureentColor = unselected;
+                                }
+                                return Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    InkWell(
+                                      onTap: () {
+                                        if (index < state.selectedForm) {
+                                          BlocProvider.of<HomeBloc>(context)
+                                              .add(HomeChangePageEvent(selectedPage: index));
+                                        } else {
+                                          Fluttertoast.showToast(
+                                            msg: "Please Fill Current Form First",
+                                          );
+                                        }
+                                      },
+                                      child: Container(
+                                          height: 30,
+                                          width: 30,
+                                          decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: state.selectedForm == index ? Colors.red : cureentColor),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(4.0),
+                                            child: SvgImage(
+                                              path: icons[index],
+                                            ),
+                                          )),
+                                    ),
+                                    index != 6
+                                        ? Container(
+                                            height: 5,
+                                            width: 25,
+                                            decoration: BoxDecoration(
+                                                color: state.selectedForm == index ? Colors.grey : cureentColor,
+                                                shape: BoxShape.rectangle),
+                                          )
+                                        : Container()
+                                  ],
+                                );
+                              },
+                            )
+                          : SizedBox())
+                  : SizedBox(),
               const SizedBox(
                 height: 20,
               ),
@@ -210,43 +235,98 @@ class _HomeScreenState extends State<HomeScreen> {
                   return const WorkExperince();
                 } else if (state.selectedForm == 7) {
                   return PreviewScreen();
+                } else if (state.selectedForm == 8) {
+                  return ListingData();
                 } else {
                   return const Text("hello");
                 }
               }),
-              Row(
-                children: [
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Expanded(
-                    child: RoundedButtton(
-                      navigate: () {
-                        BlocProvider.of<HomeBloc>(context)
-                            .add(HomeChangePageEvent(selectedPage: state.selectedForm - 1));
-                      },
-                      backgound: const Color.fromRGBO(227, 225, 241, 1),
-                      textColor: const Color.fromRGBO(116, 103, 183, 1),
-                      lable: "Previous",
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Expanded(
-                    child: RoundedButtton(
-                      navigate: () {
-                        BlocProvider.of<HomeBloc>(context)
-                            .add(HomeChangePageEvent(selectedPage: state.selectedForm + 1));
-                      },
-                      lable: "Next",
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                ],
-              ),
+              state.selectedForm <= 7
+                  ? Row(
+                      children: [
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Expanded(
+                          child: RoundedButtton(
+                            navigate: () {
+                              if (state.selectedForm > 0) {
+                                BlocProvider.of<HomeBloc>(context)
+                                    .add(HomeChangePageEvent(selectedPage: state.selectedForm - 1));
+                              }
+                            },
+                            backgound: const Color.fromRGBO(227, 225, 241, 1),
+                            textColor: const Color.fromRGBO(116, 103, 183, 1),
+                            lable: "Previous",
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Expanded(
+                          child: RoundedButtton(
+                            navigate: () async {
+                              if (state.selectedForm == 7) {
+                                if (state.formDataModel.basicDetailModel.id == -1) {
+                                  Map<String, dynamic> basicDetails =
+                                      state.formDataModel.basicDetailModel.getBasicDetails();
+
+                                  Map<String, dynamic> prefrenceData =
+                                      state.formDataModel.preferedModel.getPreferenceData();
+
+                                  List<Map<String, dynamic>> educationDetailList =
+                                      state.formDataModel.educationModel.jsonEducation();
+
+                                  List<Map<String, dynamic>> workExperienceDetailList =
+                                      state.formDataModel.workExperienceList
+
+
+                                  int id = await db.insertData(basicDetails, "basicDetails");
+                                  prefrenceData["pid"] = id;
+
+                                  for (int i = 0; i < educationDetailList.length; i++) {
+                                    educationDetailList[i]['eid'] = id;
+                                    await db.insertData(educationDetailList[i], "educationDetails");
+                                  }
+
+                                  await db.insertData(prefrenceData, "preference");
+
+                                  context.read<HomeBloc>().add(HomeListingEvent());
+                                  context
+                                      .read<HomeBloc>()
+                                      .add((HomeChangePageEvent(selectedPage: state.selectedForm + 1)));
+                                } else {
+                                  Map<String, dynamic> basicDetails =
+                                      state.formDataModel.basicDetailModel.getBasicDetails();
+
+                                  Map<String, dynamic> prefrenceData =
+                                      state.formDataModel.preferedModel.getPreferenceData();
+
+                                  int id = await db.UpdateData(
+                                      basicDetails, state.formDataModel.basicDetailModel.id, "basicDetails");
+                                  await db.UpdateData(
+                                      prefrenceData, state.formDataModel.preferedModel.id, "preference");
+                                  context.read<HomeBloc>().add(HomeListingEvent());
+                                  context
+                                      .read<HomeBloc>()
+                                      .add((HomeChangePageEvent(selectedPage: state.selectedForm + 1)));
+                                }
+
+                                // dynamic data = await db.getdata();
+                              } else {
+                                BlocProvider.of<HomeBloc>(context)
+                                    .add(HomeChangePageEvent(selectedPage: state.selectedForm + 1));
+                              }
+                            },
+                            lable: state.selectedForm == 7 ? "save" : "Next",
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                      ],
+                    )
+                  : Container(),
               const SizedBox(
                 height: 20,
               ),

@@ -14,6 +14,26 @@ class HomeChangePageEvent extends HomeEvent {
   HomeChangePageEvent({required this.selectedPage});
 }
 
+class HomeListingEvent extends HomeEvent {
+  HomeListingEvent();
+}
+
+class HomeEditEvent extends HomeEvent {
+  int id;
+
+  HomeEditEvent(this.id);
+}
+
+class HomeDeleteEvent extends HomeEvent {
+  int index;
+
+  HomeDeleteEvent(this.index);
+}
+
+class HomeAddCandidate extends HomeEvent {
+  HomeAddCandidate();
+}
+
 class HomeChangeGenderEvent extends HomeEvent {
   String radioGenderValue;
   int grpid;

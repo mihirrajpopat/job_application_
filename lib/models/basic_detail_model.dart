@@ -12,6 +12,8 @@ class BasicDetailModel {
   String radioGenderValue;
   String selectedStateItem;
   String selectedReletionItem;
+  int id = -1;
+
   int grpId;
   //  = {"mihir": "hello", "mishan": "hello"};
 
@@ -26,8 +28,8 @@ class BasicDetailModel {
       "firstName": firstName.text,
       "lastName": lastName.text,
       "designation": designation.text,
-      "address": designation.text,
-      "email": address.text,
+      "address": address.text,
+      "email": email.text,
       "phoneNumber": phoneNumber.text,
       "zipCode": zipCode.text,
       "dateOfBirth": dateOfBirth.text,
@@ -37,5 +39,20 @@ class BasicDetailModel {
     };
 
     return basicDetailsMap;
+  }
+
+  setBasicDetails(List<Map<String, dynamic>> result) {
+    firstName.text = result[0]['firstName'];
+    lastName.text = result[0]['lastName'];
+    designation.text = result[0]['designation'];
+    address.text = result[0]['address'];
+    email.text = result[0]['email'];
+    phoneNumber.text = result[0]['phoneNumber'];
+    zipCode.text = result[0]['zipCode'];
+    dateOfBirth.text = result[0]['dateOfBirth'];
+    radioGenderValue = result[0]['gender'];
+    selectedStateItem = result[0]['state'];
+    selectedReletionItem = result[0]['relation'];
+    id = result[0]['id'];
   }
 }

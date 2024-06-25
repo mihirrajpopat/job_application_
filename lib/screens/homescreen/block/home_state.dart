@@ -5,14 +5,15 @@ import '../../../models/user.dart';
 
 abstract class HomeState {
   FormDataModel formDataModel;
+  List<Map<String, dynamic>> listingData;
 
   int selectedForm;
 
-  HomeState({required this.formDataModel, required this.selectedForm});
+  HomeState({required this.formDataModel, required this.selectedForm, required this.listingData});
 }
 
 class HomeInitialState extends HomeState {
-  HomeInitialState({required super.formDataModel, required super.selectedForm});
+  HomeInitialState({required super.formDataModel, required super.selectedForm, required super.listingData});
 }
 
 // class HomeLoadingState extends HomeState {

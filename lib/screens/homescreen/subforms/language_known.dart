@@ -24,6 +24,7 @@ class LanguageKnown extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: DottedBorder(
+                    color: const Color.fromRGBO(116, 103, 183, 1),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Column(

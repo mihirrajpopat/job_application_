@@ -15,76 +15,87 @@ class TechnologyYouKnow extends StatelessWidget {
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
         return Expanded(
-          child: ListView.builder(
-            itemCount: state.formDataModel.technologyModelList.data.length,
-            shrinkWrap: true,
-            itemBuilder: (context, index) {
-              return Padding(
+          child: Column(
+            children: [
+              Padding(
                 padding: const EdgeInsets.only(left: 15, right: 15),
-                child: Row(
-                  children: [
-                    Container(
-                      width: 60,
-                      child: Text("${state.formDataModel.technologyYouKnow.technology[index]}"),
-                    ),
-                    Container(
-                      width: 50,
-                      child: Radio(
-                        visualDensity: const VisualDensity(
-                          horizontal: VisualDensity.minimumDensity,
-                          vertical: VisualDensity.minimumDensity,
+                child: DottedBorder(
+                  color: const Color.fromRGBO(116, 103, 183, 1),
+                  child: ListView.builder(
+                    padding: EdgeInsets.zero,
+                    itemCount: state.formDataModel.technologyModelList.data.length,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(left: 15, right: 15),
+                        child: Row(
+                          children: [
+                            Container(
+                              width: 60,
+                              child: Text("${state.formDataModel.technologyYouKnow.technology[index]}"),
+                            ),
+                            Container(
+                              width: 30,
+                              child: Radio(
+                                visualDensity: const VisualDensity(
+                                  horizontal: VisualDensity.minimumDensity,
+                                  vertical: VisualDensity.minimumDensity,
+                                ),
+                                groupValue: state.formDataModel.technologyModelList.data[index].know,
+                                value: "Beginer",
+                                onChanged: (val) {
+                                  BlocProvider.of<HomeBloc>(context)
+                                      .add(HomeChangeGenderEventEducation(index: index, radioValue: val.toString()));
+                                },
+                              ),
+                            ),
+                            Container(
+                              width: 60,
+                              child: Text("Beginer"),
+                            ),
+                            Container(
+                              width: 30,
+                              child: Radio(
+                                visualDensity: const VisualDensity(
+                                  horizontal: VisualDensity.minimumDensity,
+                                  vertical: VisualDensity.minimumDensity,
+                                ),
+                                groupValue: state.formDataModel.technologyModelList.data[index].know,
+                                value: "mediator",
+                                onChanged: (val) {
+                                  BlocProvider.of<HomeBloc>(context)
+                                      .add(HomeChangeGenderEventEducation(index: index, radioValue: val.toString()));
+                                },
+                              ),
+                            ),
+                            Container(
+                              width: 66,
+                              child: Text("Meadiator"),
+                            ),
+                            Container(
+                              width: 30,
+                              child: Radio(
+                                visualDensity: const VisualDensity(
+                                  horizontal: VisualDensity.minimumDensity,
+                                  vertical: VisualDensity.minimumDensity,
+                                ),
+                                groupValue: state.formDataModel.technologyModelList.data[index].know,
+                                value: "Export",
+                                onChanged: (val) {
+                                  BlocProvider.of<HomeBloc>(context)
+                                      .add(HomeChangeGenderEventEducation(index: index, radioValue: val.toString()));
+                                },
+                              ),
+                            ),
+                            Text("Export"),
+                          ],
                         ),
-                        groupValue: state.formDataModel.technologyModelList.data[index].know,
-                        value: "Beginer",
-                        onChanged: (val) {
-                          BlocProvider.of<HomeBloc>(context)
-                              .add(HomeChangeGenderEventEducation(index: index, radioValue: val.toString()));
-                        },
-                      ),
-                    ),
-                    Container(
-                      width: 60,
-                      child: Text("Beginer"),
-                    ),
-                    Container(
-                      width: 50,
-                      child: Radio(
-                        visualDensity: const VisualDensity(
-                          horizontal: VisualDensity.minimumDensity,
-                          vertical: VisualDensity.minimumDensity,
-                        ),
-                        groupValue: state.formDataModel.technologyModelList.data[index].know,
-                        value: "mediator",
-                        onChanged: (val) {
-                          BlocProvider.of<HomeBloc>(context)
-                              .add(HomeChangeGenderEventEducation(index: index, radioValue: val.toString()));
-                        },
-                      ),
-                    ),
-                    Container(
-                      width: 66,
-                      child: Text("Meadiator"),
-                    ),
-                    Container(
-                      width: 50,
-                      child: Radio(
-                        visualDensity: const VisualDensity(
-                          horizontal: VisualDensity.minimumDensity,
-                          vertical: VisualDensity.minimumDensity,
-                        ),
-                        groupValue: state.formDataModel.technologyModelList.data[index].know,
-                        value: "Export",
-                        onChanged: (val) {
-                          BlocProvider.of<HomeBloc>(context)
-                              .add(HomeChangeGenderEventEducation(index: index, radioValue: val.toString()));
-                        },
-                      ),
-                    ),
-                    Text("Export"),
-                  ],
+                      );
+                    },
+                  ),
                 ),
-              );
-            },
+              ),
+            ],
           ),
         );
       },
