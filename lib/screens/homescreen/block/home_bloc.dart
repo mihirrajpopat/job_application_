@@ -6,15 +6,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:job_application_block/models/education_model.dart';
 import 'package:job_application_block/models/formdata_model.dart';
+import 'package:job_application_block/models/lanuage_model.dart';
 import 'package:job_application_block/models/reference_model.dart';
 import 'package:job_application_block/models/work_experience_model.dart';
 import 'package:job_application_block/screens/homescreen/block/home_event.dart';
 import 'package:job_application_block/screens/homescreen/block/home_state.dart';
 
 import '../../../database/db_helper.dart';
+import '../../../models/checkbox_item.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   TextEditingController languageController = TextEditingController();
+  TextEditingController technologyController = TextEditingController();
 
   HomeBloc() : super(HomeInitialState(formDataModel: FormDataModel(), selectedForm: 8, listingData: [])) {
     on<HomeInitialEvent>((event, emit) async {
@@ -25,8 +28,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<HomeChangeGenderEvent>(homeChangeGenderEvent);
     on<HomeAddEducationEvent>(homeAddEducationEvent);
     on<HomeRemoveEducationEvent>(homeRemoveEducationEvent);
+    on<HomeRemoveLanguageEvent>(homeRemoveLanguageEvent);
     on<HomeAddReferenceEvent>(homeAddReferenceEvent);
     on<HomeAddLanguageEvent>(homeAddLanguageEvent);
+    on<HomeAddTechnologyEvent>(homeAddTechnologyEvent);
     on<HomeLanguageCheckboxEvent>(homeLanguageCheckboxEvent);
     on<HomeAddWorkExperienceEvent>(homeAddWorkExperienceEvent);
     on<HomeRemoveWorkExperienceEvent>(homeRemoveWorkExperienceEvent);
@@ -35,6 +40,15 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<HomeListingEvent>(homeListingEvent);
     on<HomeDeleteEvent>(homeDeleteEvent);
     on<HomeEditEvent>(homeEditEvent);
+  }
+
+  FutureOr<void> homeAddTechnologyEvent(HomeAddTechnologyEvent event, Emitter<HomeState> emit) {
+    state.formDataModel.technologyModelList.data.add(
+      TechnologyModel(techonologyName: technologyController.text),
+    );
+
+    emit(HomeInitialState(
+        formDataModel: state.formDataModel, selectedForm: state.selectedForm, listingData: state.listingData));
   }
 
   FutureOr<void> homeEditEvent(HomeEditEvent event, Emitter<HomeState> emit) async {
@@ -49,6 +63,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     formDataModel.preferedModel.setPreferenceData(result[1]);
 
     formDataModel.educationModel.setEducationData(result[2]);
+    formDataModel.workExperienceList.setWorkExperienceDetails(result[3]);
+    formDataModel.referenceModelList.setWorkExperienceDetails(result[4]);
+    formDataModel.lanuageListModel.setLanguageData(result[5]);
 
     state.selectedForm = 7;
     state.formDataModel = formDataModel;
@@ -57,9 +74,16 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         formDataModel: state.formDataModel, selectedForm: state.selectedForm, listingData: state.listingData));
   }
 
+  FutureOr<void> homeRemoveLanguageEvent(HomeRemoveLanguageEvent event, Emitter<HomeState> emit) async {
+    state.formDataModel.lanuageListModel.data.removeAt(event.index);
+
+    emit(HomeInitialState(
+        formDataModel: state.formDataModel, selectedForm: state.selectedForm, listingData: state.listingData));
+  }
+
   FutureOr<void> homeDeleteEvent(HomeDeleteEvent event, Emitter<HomeState> emit) async {
     DatabaseHelper db = DatabaseHelper();
-    await db.deleteData(event.index);
+    await db.deleteData(event.index, "basicDetails");
     List<Map<String, dynamic>> data = await db.getdata();
 
     emit(HomeInitialState(formDataModel: state.formDataModel, selectedForm: state.selectedForm, listingData: data));
@@ -145,17 +169,15 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   FutureOr<void> homeAddLanguageEvent(HomeAddLanguageEvent event, Emitter<HomeState> emit) {
-    state.formDataModel.languageModel.language.add(languageController.text.trim());
+    state.formDataModel.lanuageListModel.data.add(LanguageModel(languageName: languageController.text));
     languageController.clear();
-    state.formDataModel.languageModel.val.add(state.formDataModel.languageModel.data);
-    state.formDataModel.languageModel.newLanguage.clear();
 
     emit(HomeInitialState(
         formDataModel: state.formDataModel, selectedForm: state.selectedForm, listingData: state.listingData));
   }
 
   FutureOr<void> homeLanguageCheckboxEvent(HomeLanguageCheckboxEvent event, Emitter<HomeState> emit) {
-    state.formDataModel.languageModel.val[event.index][event.key] = event.value;
+    state.formDataModel.lanuageListModel.data[event.index].val[event.valindex] = event.value;
 
     emit(HomeInitialState(
         formDataModel: state.formDataModel, selectedForm: state.selectedForm, listingData: state.listingData));

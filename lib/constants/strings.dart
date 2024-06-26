@@ -66,4 +66,18 @@ class Strings {
               department TEXT NOT NULL,
                preferdLocation TEXT NOT NULL,
                  FOREIGN KEY (pid) REFERENCES basicDetails(id)) """;
+
+  static const toastMsg = "Please Fill Current Form First";
+
+  //table names
+  static const tblBasicDetail = "basicDetails";
+  static const tblEducationDetail = "educationDetails";
+  static const tblWorkExperience = "";
+  static const tblLanguageKnown = "";
+  static const tblTechnologyKnown = "";
+  static const tblPreference = "preference";
+  static const tblReference = "";
+  static const previous = "Previous";
+  static const save = "Save";
+  static const next = "Next";
 }

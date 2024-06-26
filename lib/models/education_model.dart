@@ -29,6 +29,7 @@ class EducationModel {
       educationMode.passingYear.text = result[i]['passingYear'].toString();
       educationMode.percentage.text = result[i]['percentage'].toString();
       educationMode.id = result[i]['id'];
+      educationMode.eid = result[i]['eid'];
 
       educationModelList.add(educationMode);
     }
@@ -42,6 +43,8 @@ class EducationModel {
         "board": educationModelList[i].nameOfBoard.text,
         "passingYear": educationModelList[i].passingYear.text,
         "percentage": educationModelList[i].percentage.text,
+        "eid": educationModelList[i].eid,
+        "id": educationModelList[i].id,
       });
     }
 

@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:job_application_block/screens/homescreen/block/home_event.dart';
 
+import '../../../database/db_helper.dart';
 import '../../../lib/maxlimitnumber.dart';
 import '../../../lib/textformfiled_widget.dart';
 import '../../../lib/validation_function.dart';
@@ -38,6 +39,32 @@ class EducationDatails extends StatelessWidget {
                         itemBuilder: (context, index) {
                           return Column(
                             children: [
+                              state.formDataModel.educationModel.educationModelList.length > 1
+                                  ? Row(
+                                      children: [
+                                        const Text("Remove"),
+                                        IconButton(
+                                          onPressed: () async {
+                                            if (state.formDataModel.educationModel.educationModelList[index].id == -1) {
+                                              print(
+                                                  "${state.formDataModel.educationModel.educationModelList[index].id}");
+                                            } else {
+                                              DatabaseHelper db = DatabaseHelper();
+                                              await db.deleteData(
+                                                  state.formDataModel.educationModel.educationModelList[index].id,
+                                                  "educationDetails");
+                                            }
+
+                                            BlocProvider.of<HomeBloc>(context)
+                                                .add(HomeRemoveEducationEvent(index: index));
+                                          },
+                                          icon: const Icon(
+                                            Icons.remove_circle_outline,
+                                          ),
+                                        )
+                                      ],
+                                    )
+                                  : SizedBox(),
                               DottedBorder(
                                 color: const Color.fromRGBO(116, 103, 183, 1),
                                 child: Padding(
@@ -98,37 +125,22 @@ class EducationDatails extends StatelessWidget {
                               const SizedBox(
                                 height: 15,
                               ),
-                              index == state.formDataModel.educationModel.educationModelList.length - 1
-                                  ? Row(
-                                      children: [
-                                        const Text("Add"),
-                                        IconButton(
-                                          onPressed: () {
-                                            BlocProvider.of<HomeBloc>(context).add(HomeAddEducationEvent());
-                                          },
-                                          icon: const Icon(
-                                            Icons.add_circle_outline_outlined,
-                                          ),
-                                        )
-                                      ],
-                                    )
-                                  : Row(
-                                      children: [
-                                        const Text("Remove"),
-                                        IconButton(
-                                          onPressed: () {
-                                            BlocProvider.of<HomeBloc>(context)
-                                                .add(HomeRemoveEducationEvent(index: index));
-                                          },
-                                          icon: const Icon(
-                                            Icons.remove_circle_outline,
-                                          ),
-                                        )
-                                      ],
-                                    )
                             ],
                           );
-                        })
+                        }),
+                    Row(
+                      children: [
+                        const Text("Add"),
+                        IconButton(
+                          onPressed: () {
+                            BlocProvider.of<HomeBloc>(context).add(HomeAddEducationEvent());
+                          },
+                          icon: const Icon(
+                            Icons.add_circle_outline_outlined,
+                          ),
+                        )
+                      ],
+                    )
                   ],
                 ),
               ),

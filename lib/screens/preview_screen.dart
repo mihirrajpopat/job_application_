@@ -27,6 +27,15 @@ class _PreviewScreenState extends State<PreviewScreen> {
           state.formDataModel.preferedModel.PreferedModelMap(),
         ];
 
+        List<Map<String, dynamic>> language = state.formDataModel.lanuageListModel.getLanguageMap();
+
+        print(" body data id ${state.formDataModel.lanuageListModel.data[0].val}");
+        List<List<String>> languagekey = [];
+
+        for (int i = 0; i < language.length; i++) {
+          languagekey.add(language[i].keys.toList());
+        }
+
         List<List<String>> key = [
           data[0].keys.toList(),
           data[1].keys.toList(),
@@ -38,10 +47,8 @@ class _PreviewScreenState extends State<PreviewScreen> {
         List<String> heding = [
           "Basic Detail",
           "Education Detail",
-          "Language You Know ",
           "Technology You Know",
-          ""
-              "Work Experience",
+          "Work Experience",
           "Reference",
           "Preference"
         ];
@@ -49,78 +56,156 @@ class _PreviewScreenState extends State<PreviewScreen> {
           child: SingleChildScrollView(
             child: Padding(
                 padding: const EdgeInsets.only(left: 15, right: 15, bottom: 15),
-                child: ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: data.length,
-                    itemBuilder: (context, indexo) {
-                      return Column(
-                        children: [
-                          Text(
-                            " ${heding[indexo]}",
-                            style: TextStyle(fontSize: 18),
-                          ),
-                          DottedBorder(
-                            color: const Color.fromRGBO(116, 103, 183, 1),
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 10, top: 5, bottom: 10),
-                                  child: Align(
-                                    alignment: Alignment.topRight,
-                                    child: InkWell(
-                                      onTap: () {
-                                        BlocProvider.of<HomeBloc>(context)
-                                            .add(HomeChangePageEvent(selectedPage: indexo));
-                                      },
-                                      child: SvgImage(
-                                        path: "edit_icon.svg",
-                                        imagecolor: Colors.black,
+                child: Column(
+                  children: [
+                    ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: data.length,
+                        itemBuilder: (context, indexo) {
+                          return Column(
+                            children: [
+                              Text(
+                                " ${heding[indexo]}",
+                                style: TextStyle(fontSize: 18),
+                              ),
+                              DottedBorder(
+                                color: const Color.fromRGBO(116, 103, 183, 1),
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(right: 10, top: 5, bottom: 10),
+                                      child: Align(
+                                        alignment: Alignment.topRight,
+                                        child: InkWell(
+                                          onTap: () {
+                                            BlocProvider.of<HomeBloc>(context)
+                                                .add(HomeChangePageEvent(selectedPage: indexo));
+                                          },
+                                          child: SvgImage(
+                                            path: "edit_icon.svg",
+                                            imagecolor: Colors.black,
+                                          ),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ),
-                                ListView.builder(
-                                    padding: EdgeInsets.zero,
-                                    physics: NeverScrollableScrollPhysics(),
-                                    shrinkWrap: true,
-                                    itemCount: data[indexo].length,
-                                    itemBuilder: (context, index) {
-                                      return Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.only(left: 10, bottom: 5),
-                                            child: SingleChildScrollView(
-                                              scrollDirection: Axis.horizontal,
-                                              child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.start,
-                                                children: [
-                                                  SizedBox(
-                                                    width: 140,
-                                                    child: Text(
-                                                      key[indexo][index],
-                                                      style: TextStyle(fontSize: 18),
-                                                    ),
+                                    ListView.builder(
+                                        padding: EdgeInsets.zero,
+                                        physics: NeverScrollableScrollPhysics(),
+                                        shrinkWrap: true,
+                                        itemCount: data[indexo].length,
+                                        itemBuilder: (context, index) {
+                                          return Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(left: 10, bottom: 5),
+                                                child: SingleChildScrollView(
+                                                  scrollDirection: Axis.horizontal,
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                    children: [
+                                                      SizedBox(
+                                                        width: 140,
+                                                        child: Text(
+                                                          key[indexo][index],
+                                                          style: TextStyle(fontSize: 18),
+                                                        ),
+                                                      ),
+                                                      data[indexo][key[indexo][index]].runtimeType == List
+                                                          ? Text(" : ${data[indexo][key[indexo][index]].join(',')} ",
+                                                              style: const TextStyle(fontSize: 18))
+                                                          : Text(" : ${data[indexo][key[indexo][index]]} ",
+                                                              style: const TextStyle(fontSize: 18))
+                                                    ],
                                                   ),
-                                                  data[indexo][key[indexo][index]].runtimeType == List
-                                                      ? Text(" : ${data[indexo][key[indexo][index]].join(',')} ",
-                                                          style: const TextStyle(fontSize: 18))
-                                                      : Text(" : ${data[indexo][key[indexo][index]]} ",
-                                                          style: const TextStyle(fontSize: 18))
-                                                ],
+                                                ),
                                               ),
-                                            ),
-                                          ),
-                                        ],
-                                      );
-                                    }),
-                              ],
-                            ),
-                          ),
-                        ],
-                      );
-                    })),
+                                            ],
+                                          );
+                                        }),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          );
+                        }),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      "Language Known",
+                      style: TextStyle(fontSize: 18),
+                    ),
+                    ListView.builder(
+                        padding: EdgeInsets.zero,
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: language.length,
+                        itemBuilder: (context, indexo) {
+                          return Column(
+                            children: [
+                              DottedBorder(
+                                color: const Color.fromRGBO(116, 103, 183, 1),
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.only(right: 10, top: 5, bottom: 10),
+                                      child: Align(
+                                          alignment: Alignment.topRight,
+                                          child: indexo == 0
+                                              ? InkWell(
+                                                  onTap: () {
+                                                    BlocProvider.of<HomeBloc>(context)
+                                                        .add(HomeChangePageEvent(selectedPage: 6));
+                                                  },
+                                                  child: SvgImage(
+                                                    path: "edit_icon.svg",
+                                                    imagecolor: Colors.black,
+                                                  ),
+                                                )
+                                              : SizedBox()),
+                                    ),
+                                    ListView.builder(
+                                        padding: EdgeInsets.zero,
+                                        physics: NeverScrollableScrollPhysics(),
+                                        shrinkWrap: true,
+                                        itemCount: language[indexo].length,
+                                        itemBuilder: (context, index) {
+                                          return Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(left: 10, bottom: 5),
+                                                child: SingleChildScrollView(
+                                                  scrollDirection: Axis.horizontal,
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                    children: [
+                                                      SizedBox(
+                                                        width: 140,
+                                                        child: Text(
+                                                          languagekey[indexo][index],
+                                                          style: const TextStyle(fontSize: 18),
+                                                        ),
+                                                      ),
+                                                      Text(" : ${language[indexo][languagekey[indexo][index]]} ",
+                                                          style: const TextStyle(fontSize: 18))
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          );
+                                        }),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          );
+                        }),
+                  ],
+                )),
           ),
         );
       },

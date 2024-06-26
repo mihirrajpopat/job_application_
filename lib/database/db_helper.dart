@@ -39,10 +39,10 @@ class DatabaseHelper {
     return result;
   }
 
-  Future<void> deleteData(id) async {
+  Future<void> deleteData(id, name) async {
     final Database db = await initDB();
 
-    db.delete("basicDetails",
+    db.delete(name,
         // Use a `where` clause to delete a specific Note.
         where: "id = ?",
         // Pass the Dog's id as a whereArg to prevent SQL injection.
@@ -62,8 +62,23 @@ class DatabaseHelper {
         // Pass the Dog's id as a whereArg to prevent SQL injection.
         whereArgs: [id]);
 
+    List<Map<String, dynamic>> language = await db.query("languageknown",
+        where: "lid = ?",
+        // Pass the Dog's id as a whereArg to prevent SQL injection.
+        whereArgs: [id]);
+
     List<Map<String, dynamic>> education = await db.query("educationDetails",
         where: "eid = ?",
+        // Pass the Dog's id as a whereArg to prevent SQL injection.
+        whereArgs: [id]);
+
+    List<Map<String, dynamic>> work = await db.query("workexperience",
+        where: "wid = ?",
+        // Pass the Dog's id as a whereArg to prevent SQL injection.
+        whereArgs: [id]);
+
+    List<Map<String, dynamic>> reference = await db.query("referenceDetails",
+        where: "rid = ?",
         // Pass the Dog's id as a whereArg to prevent SQL injection.
         whereArgs: [id]);
 
@@ -72,8 +87,10 @@ class DatabaseHelper {
     result.add(basicdetail);
     result.add(prefernce);
     result.add(education);
+    result.add(work);
+    result.add(reference);
+    result.add(language);
 
-    print("the data is $prefernce");
     return result;
   }
 

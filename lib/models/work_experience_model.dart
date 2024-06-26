@@ -21,7 +21,24 @@ class WorkExperienceList {
     return educationModelMap;
   }
 
-  jsonWork(List<Map<String, dynamic>> result) {
+  List<Map<String, dynamic>> jsonWork() {
+    List<Map<String, dynamic>> result = [];
+
+    for (int i = 0; i < data.length; i++) {
+      result.add({
+        "companyName": data[i].companyName.text,
+        "designation": data[i].designation.text,
+        "fromDate": data[i].fromDate.text,
+        "toDate": data[i].toDate.text,
+        "id": data[i].id,
+        "wid": data[i].wid,
+      });
+    }
+
+    return result;
+  }
+
+  setWorkExperienceDetails(List<Map<String, dynamic>> result) {
     data.removeLast();
 
     for (int i = 0; i < result.length; i++) {
@@ -32,6 +49,9 @@ class WorkExperienceList {
       workExperience.fromDate.text = result[i]['fromDate'];
       workExperience.toDate.text = result[i]['toDate'];
       workExperience.id = result[i]['id'];
+
+      workExperience.wid = result[i]['wid'];
+
       data.add(workExperience);
     }
   }
@@ -43,4 +63,5 @@ class WorkExperience {
   TextEditingController fromDate = TextEditingController();
   TextEditingController toDate = TextEditingController();
   int id = -1;
+  int wid = -1;
 }

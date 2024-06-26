@@ -10,7 +10,8 @@ import 'lanuage_model.dart';
 class FormDataModel {
   BasicDetailModel basicDetailModel = BasicDetailModel();
   EducationModel educationModel = EducationModel();
-  LanguageModel languageModel = LanguageModel();
+  LanuageListModel lanuageListModel = LanuageListModel();
+
   ReferenceModelList referenceModelList = ReferenceModelList();
   WorkExperienceList workExperienceList = WorkExperienceList();
   TechnologyYouKnowModel technologyYouKnow = TechnologyYouKnowModel();

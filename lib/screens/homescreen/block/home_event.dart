@@ -1,7 +1,3 @@
-import 'package:job_application_block/constants/strings.dart';
-
-import '../../../models/user.dart';
-
 abstract class HomeEvent {}
 
 class HomeInitialEvent extends HomeEvent {
@@ -58,7 +54,15 @@ class HomeRemoveEducationEvent extends HomeEvent {
 
 class HomeAddReferenceEvent extends HomeEvent {}
 
+class HomeRemoveLanguageEvent extends HomeEvent {
+  int index;
+
+  HomeRemoveLanguageEvent({required this.index});
+}
+
 class HomeAddLanguageEvent extends HomeEvent {}
+
+class HomeAddTechnologyEvent extends HomeEvent {}
 
 class HomeAddWorkExperienceEvent extends HomeEvent {}
 
@@ -69,13 +73,9 @@ class HomeRemoveWorkExperienceEvent extends HomeEvent {
 }
 
 class HomeLanguageCheckboxEvent extends HomeEvent {
-  bool value;
-  String key;
+  bool? value;
   int index;
+  String valindex;
 
-  HomeLanguageCheckboxEvent({
-    required this.value,
-    required this.index,
-    required this.key,
-  });
+  HomeLanguageCheckboxEvent({required this.value, required this.index, required this.valindex});
 }

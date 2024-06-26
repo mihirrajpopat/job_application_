@@ -24,9 +24,9 @@ class Checkbox {
 }
 
 class TechnologyYouKnowModel {
-  List<Checkbox> checkbox = [Checkbox(), Checkbox(), Checkbox(), Checkbox()];
+  List<Checkbox> checkbox = [Checkbox()];
 
-  List<String> technology = ["PHP", "MySql", "Laravel", "Oracle"];
+  List<String> technology = ["PHP"];
 }
 
 class TechnologyModel {
@@ -39,9 +39,6 @@ class TechnologyModel {
 class TechnologyModelList {
   List<TechnologyModel> data = [
     TechnologyModel(techonologyName: "Php"),
-    TechnologyModel(techonologyName: "MySql"),
-    TechnologyModel(techonologyName: "Laravel"),
-    TechnologyModel(techonologyName: "Oracle")
   ];
 
   Map<String, dynamic> getTopTechnologyMap() {

@@ -1,11 +1,6 @@
-import 'dart:ffi';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:job_application_block/constants/routes.dart';
 import 'package:job_application_block/lib/common_widgets/svg_image.dart';
 import 'package:job_application_block/screens/homescreen/block/home_bloc.dart';
 import 'package:job_application_block/screens/homescreen/block/home_event.dart';
@@ -18,12 +13,11 @@ import 'package:job_application_block/screens/homescreen/subforms/preference.dar
 import 'package:job_application_block/screens/homescreen/subforms/reference_contact.dart';
 import 'package:job_application_block/screens/homescreen/subforms/technology_you_know.dart';
 import 'package:job_application_block/screens/homescreen/subforms/work_experince.dart';
-import 'package:sqflite/sqflite.dart';
-
-import '../../constants/strings.dart';
+import '../../constants/color.dart';
 import '../../database/db_helper.dart';
-import '../../lib/rounded_btn_widget.dart';
+import 'package:job_application_block/lib/rounded_btn_widget.dart';
 import '../preview_screen.dart';
+import 'component/floatingActionButton.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -49,41 +43,24 @@ class _HomeScreenState extends State<HomeScreen> {
   List<String?> icons = [
     "basicdetail.svg",
     "educationdetail.svg",
-    "language.svg",
+    "preferences.svg",
     "technology.svg",
     "work.svg",
     "reference.svg",
-    "preferences.svg"
+    "language.svg",
   ];
 
-  Color Slected = Color.fromRGBO(116, 103, 183, 1);
+  Color selected = CommonColor.primaryColor;
   Color unselected = Colors.grey;
-  late Color cureentColor;
+  late Color currentColor;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       // resizeToAvoidBottomInset: false,
-      backgroundColor: const Color.fromRGBO(245, 247, 249, 1),
-      floatingActionButton: BlocBuilder<HomeBloc, HomeState>(
-        builder: (context, state) {
-          return state.selectedForm == 8
-              ? Padding(
-                  padding: const EdgeInsets.only(bottom: 60),
-                  child: FloatingActionButton(
-                    onPressed: () {
-                      context.read<HomeBloc>().add((HomeAddCandidate()));
-                    },
-                    child: Icon(
-                      Icons.add,
-                      color: Colors.white,
-                    ),
-                    backgroundColor: Color.fromRGBO(116, 103, 183, 1),
-                  ),
-                )
-              : Container();
-        },
-      ),
+      backgroundColor: CommonColor.backgroundColor,
+
+      floatingActionButton: Floatingactionbutton(),
       body: BlocBuilder<HomeBloc, HomeState>(
         builder: (context, state) {
           return Column(
@@ -101,17 +78,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       Container(
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(6.0),
-                          color: Colors.white,
-                          boxShadow: const [
-                            BoxShadow(
-                              color: Color.fromRGBO(207, 207, 207, 0.9),
-                              offset: Offset(1, 1),
-                              blurRadius: 3,
-                              spreadRadius: 0,
-                            ),
-                          ],
-                        ),
+                            borderRadius: BorderRadius.circular(6.0),
+                            color: Colors.white,
+                            boxShadow: CommonColor.boxShadow),
                         height: 30,
                         width: 30,
                         child: IconButton(
@@ -129,16 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       Container(
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(6.0),
-                            color: Colors.white,
-                            boxShadow: const [
-                              BoxShadow(
-                                color: Color.fromRGBO(207, 207, 207, 0.9),
-                                offset: Offset(1, 1),
-                                blurRadius: 3,
-                                spreadRadius: 0,
-                              ),
-                            ]),
+                            borderRadius: BorderRadius.circular(6.0), color: Colors.white, boxShadow: const []),
                         height: 30,
                         width: 30,
                         child: IconButton(
@@ -167,9 +127,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               itemCount: 7,
                               itemBuilder: (context, index) {
                                 if (index <= state.selectedForm) {
-                                  cureentColor = Slected;
+                                  currentColor = selected;
                                 } else {
-                                  cureentColor = unselected;
+                                  currentColor = unselected;
                                 }
                                 return Row(
                                   mainAxisSize: MainAxisSize.min,
@@ -190,7 +150,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           width: 30,
                                           decoration: BoxDecoration(
                                               shape: BoxShape.circle,
-                                              color: state.selectedForm == index ? Colors.red : cureentColor),
+                                              color: state.selectedForm == index ? Colors.red : currentColor),
                                           child: Padding(
                                             padding: const EdgeInsets.all(4.0),
                                             child: SvgImage(
@@ -203,7 +163,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             height: 5,
                                             width: 25,
                                             decoration: BoxDecoration(
-                                                color: state.selectedForm == index ? Colors.grey : cureentColor,
+                                                color: state.selectedForm == index ? Colors.grey : currentColor,
                                                 shape: BoxShape.rectangle),
                                           )
                                         : Container()
@@ -212,7 +172,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               },
                             )
                           : SizedBox())
-                  : SizedBox(),
+                  : const SizedBox(),
               const SizedBox(
                 height: 20,
               ),
@@ -223,15 +183,15 @@ class _HomeScreenState extends State<HomeScreen> {
                   );
                 } else if (state.selectedForm == 1) {
                   return const EducationDatails();
-                } else if (state.selectedForm == 2) {
-                  return const LanguageKnown();
-                } else if (state.selectedForm == 3) {
-                  return TechnologyYouKnow();
                 } else if (state.selectedForm == 5) {
+                  return Preference();
+                } else if (state.selectedForm == 2) {
+                  return TechnologyYouKnow();
+                } else if (state.selectedForm == 4) {
                   return ReferenceContact();
                 } else if (state.selectedForm == 6) {
-                  return Preference();
-                } else if (state.selectedForm == 4) {
+                  return const LanguageKnown();
+                } else if (state.selectedForm == 3) {
                   return const WorkExperince();
                 } else if (state.selectedForm == 7) {
                   return PreviewScreen();
@@ -277,16 +237,50 @@ class _HomeScreenState extends State<HomeScreen> {
                                   List<Map<String, dynamic>> educationDetailList =
                                       state.formDataModel.educationModel.jsonEducation();
 
-                                  List<Map<String, dynamic>> workExperienceDetailList =
-                                      state.formDataModel.workExperienceList
+                                  List<Map<String, dynamic>> language =
+                                      state.formDataModel.lanuageListModel.jsonLanuage();
 
+                                  print("langu  is in $language");
+
+                                  List<Map<String, dynamic>> workDetailList =
+                                      state.formDataModel.workExperienceList.jsonWork();
+
+                                  List<Map<String, dynamic>> referenceList =
+                                      state.formDataModel.referenceModelList.jsonReference();
 
                                   int id = await db.insertData(basicDetails, "basicDetails");
                                   prefrenceData["pid"] = id;
 
                                   for (int i = 0; i < educationDetailList.length; i++) {
+                                    educationDetailList[i].remove("id");
+
                                     educationDetailList[i]['eid'] = id;
                                     await db.insertData(educationDetailList[i], "educationDetails");
+
+                                    educationDetailList[i]['id'] = -1;
+                                  }
+
+                                  for (int i = 0; i < language.length; i++) {
+                                    language[i].remove("id");
+
+                                    language[i]['lid'] = id;
+                                    await db.insertData(language[i], "languageknown");
+
+                                    language[i]['id'] = -1;
+                                  }
+                                  for (int i = 0; i < referenceList.length; i++) {
+                                    referenceList[i].remove("id");
+                                    referenceList[i]['rid'] = id;
+                                    await db.insertData(referenceList[i], "referenceDetails");
+                                    referenceList[i]['id'] = -1;
+                                  }
+
+                                  for (int i = 0; i < workDetailList.length; i++) {
+                                    workDetailList[i].remove("id");
+                                    workDetailList[i]['wid'] = id;
+                                    await db.insertData(workDetailList[i], "workexperience");
+
+                                    workDetailList[i]['id'] = -1;
                                   }
 
                                   await db.insertData(prefrenceData, "preference");
@@ -302,10 +296,75 @@ class _HomeScreenState extends State<HomeScreen> {
                                   Map<String, dynamic> prefrenceData =
                                       state.formDataModel.preferedModel.getPreferenceData();
 
+                                  List<Map<String, dynamic>> language =
+                                      state.formDataModel.lanuageListModel.jsonLanuage();
+                                  List<Map<String, dynamic>> referenceList =
+                                      state.formDataModel.referenceModelList.jsonReference();
+
+                                  List<Map<String, dynamic>> educationDetailList =
+                                      state.formDataModel.educationModel.jsonEducation();
+
+                                  List<Map<String, dynamic>> workDetailList =
+                                      state.formDataModel.workExperienceList.jsonWork();
+
+                                  print(" education list is ${educationDetailList}");
+
+                                  for (int i = 0; i < workDetailList.length; i++) {
+                                    if (workDetailList[i]['id'] == -1) {
+                                      workDetailList[i].remove("id");
+                                      workDetailList[i]['wid'] = state.formDataModel.basicDetailModel.id;
+
+                                      await db.insertData(workDetailList[i], "workexperience");
+                                      workDetailList[i]['id'] = -1;
+                                    } else {
+                                      await db.UpdateData(workDetailList[i], workDetailList[i]['id'], "workexperience");
+                                    }
+                                  }
+
+                                  print("langu is $language");
+                                  for (int i = 0; i < language.length; i++) {
+                                    if (language[i]['id'] == -1) {
+                                      language[i].remove("id");
+                                      language[i]['lid'] = state.formDataModel.basicDetailModel.id;
+
+                                      await db.insertData(language[i], "languageknown");
+                                      language[i]['id'] = -1;
+                                    } else {
+                                      await db.UpdateData(language[i], language[i]['id'], "languageknown");
+                                    }
+                                  }
+
+                                  for (int i = 0; i < referenceList.length; i++) {
+                                    if (referenceList[i]['id'] == -1) {
+                                      referenceList[i].remove("id");
+                                      referenceList[i]['rid'] = state.formDataModel.basicDetailModel.id;
+
+                                      await db.insertData(referenceList[i], "referenceDetails");
+                                      referenceList[i]['id'] = -1;
+                                    } else {
+                                      await db.UpdateData(referenceList[i], referenceList[i]['id'], "referenceDetails");
+                                    }
+                                  }
+
+                                  for (int i = 0; i < educationDetailList.length; i++) {
+                                    if (educationDetailList[i]['id'] == -1) {
+                                      educationDetailList[i].remove("id");
+                                      educationDetailList[i]['eid'] = state.formDataModel.basicDetailModel.id;
+
+                                      await db.insertData(educationDetailList[i], "educationDetails");
+                                      educationDetailList[i]['id'] = -1;
+                                    } else {
+                                      await db.UpdateData(
+                                          educationDetailList[i], educationDetailList[i]['id'], "educationDetails");
+                                    }
+                                  }
+
                                   int id = await db.UpdateData(
                                       basicDetails, state.formDataModel.basicDetailModel.id, "basicDetails");
+
                                   await db.UpdateData(
                                       prefrenceData, state.formDataModel.preferedModel.id, "preference");
+
                                   context.read<HomeBloc>().add(HomeListingEvent());
                                   context
                                       .read<HomeBloc>()

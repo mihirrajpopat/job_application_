@@ -59,10 +59,11 @@ class _ReferenceContactState extends State<ReferenceContact> {
                                         height: 10,
                                       ),
                                       TextFormFiledWidget(
+                                        type: TextInputType.number,
                                         controller: state.formDataModel.referenceModelList.data[index].contactNumber,
                                         lable: "Contect Number",
                                         checkValidation: (value) {
-                                          return Validation.requiredFiled(value);
+                                          return Validation.phoneValidate(value);
                                         },
                                       ),
                                       const SizedBox(
