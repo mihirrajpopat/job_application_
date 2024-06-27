@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:job_application_block/lib/common_widgets/svg_image.dart';
+import 'package:job_application_block/lib/rounded_btn_widget.dart';
 import 'package:job_application_block/screens/homescreen/block/home_bloc.dart';
 import 'package:job_application_block/screens/homescreen/block/home_event.dart';
 import 'package:job_application_block/screens/homescreen/block/home_state.dart';
@@ -13,13 +14,11 @@ import 'package:job_application_block/screens/homescreen/subforms/preference.dar
 import 'package:job_application_block/screens/homescreen/subforms/reference_contact.dart';
 import 'package:job_application_block/screens/homescreen/subforms/technology_you_know.dart';
 import 'package:job_application_block/screens/homescreen/subforms/work_experince.dart';
+
 import '../../constants/color.dart';
 import '../../constants/routes.dart';
 import '../../database/db_helper.dart';
-import 'package:job_application_block/lib/rounded_btn_widget.dart';
-import '../../main.dart';
 import '../preview_screen.dart';
-import 'component/floatingActionButton.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -36,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
     // TODO: implement initState
     super.initState();
     db.initDB();
-    BlocProvider.of<HomeBloc>(context).add(HomeInitialEvent());
+    // BlocProvider.of<HomeBloc>(context).add(HomeInitialEvent());
   }
 
   final _formKey = GlobalKey<FormState>();
@@ -62,8 +61,12 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: CommonColor.backgroundColor,
 
       body: BlocBuilder<HomeBloc, HomeState>(
-        buildWhen: (previous, current) => previous.selectedForm != current.selectedForm,
+        buildWhen: (previous, current) {
+          return current.selectedForm != previous.selectedForm;
+        },
         builder: (context, state) {
+          print("called first state: ${state.selectedForm}");
+
           return Form(
             key: _formKey,
             child: Column(

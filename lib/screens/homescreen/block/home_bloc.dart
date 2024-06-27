@@ -22,6 +22,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   HomeBloc() : super(HomeInitialState(formDataModel: FormDataModel(), selectedForm: 0, listingData: [])) {
     on<HomeInitialEvent>((event, emit) async {
+      state.selectedForm = 0;
+      print("this is callled ${state.selectedForm}");
       emit(HomeInitialState(formDataModel: FormDataModel(), selectedForm: 0, listingData: []));
     });
 
@@ -183,7 +185,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   FutureOr<void> homeAddCandidate(HomeAddCandidate event, Emitter<HomeState> emit) {
     state.formDataModel = FormDataModel();
-    state.selectedForm = 0;
 
     emit(HomeInitialState(
         formDataModel: state.formDataModel, selectedForm: state.selectedForm, listingData: state.listingData));
@@ -257,10 +258,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   FutureOr<void> homeChangePageEvent(HomeChangePageEvent event, Emitter<HomeState> emit) {
-    state.selectedForm = event.selectedPage;
-
     emit(HomeInitialState(
-        formDataModel: state.formDataModel, selectedForm: state.selectedForm, listingData: state.listingData));
+        formDataModel: state.formDataModel, selectedForm: event.selectedPage, listingData: state.listingData));
   }
 
   FutureOr<void> homeChangeGenderEvent(HomeChangeGenderEvent event, Emitter<HomeState> emit) {
