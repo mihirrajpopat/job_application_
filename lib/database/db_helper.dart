@@ -1,10 +1,17 @@
+import 'package:flutter/foundation.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../constants/strings.dart';
 
 class DatabaseHelper {
+  static DatabaseHelper _databaseHelper = DatabaseHelper._internal();
+
+  DatabaseHelper._internal();
+
+  static DatabaseHelper get instance => _databaseHelper;
   // ...
+
   Future<Database> initDB() async {
     String path = await getDatabasesPath();
     return openDatabase(
@@ -23,11 +30,9 @@ class DatabaseHelper {
   }
 
   Future<int> insertData(Map<String, dynamic> data, dbName) async {
-    final Database db = await initDB();
+    final Database db = await DatabaseHelper._databaseHelper.initDB();
 
     int lid = await db.insert(dbName, data);
-
-    print(" lid is$lid");
 
     return lid;
   }
@@ -40,7 +45,7 @@ class DatabaseHelper {
   }
 
   Future<void> deleteData(id, name) async {
-    final Database db = await initDB();
+    final Database db = await DatabaseHelper._databaseHelper.initDB();
 
     db.delete(name,
         // Use a `where` clause to delete a specific Note.
@@ -50,7 +55,7 @@ class DatabaseHelper {
   }
 
   Future<List<List<Map<String, dynamic>>>> getDataById(id) async {
-    final Database db = await initDB();
+    final Database db = await DatabaseHelper._databaseHelper.initDB();
 
     List<Map<String, dynamic>> basicdetail = await db.query("basicDetails",
         where: "id = ?",
@@ -77,6 +82,11 @@ class DatabaseHelper {
         // Pass the Dog's id as a whereArg to prevent SQL injection.
         whereArgs: [id]);
 
+    List<Map<String, dynamic>> techmology = await db.query("technologyknown",
+        where: "tid = ?",
+        // Pass the Dog's id as a whereArg to prevent SQL injection.
+        whereArgs: [id]);
+
     List<Map<String, dynamic>> reference = await db.query("referenceDetails",
         where: "rid = ?",
         // Pass the Dog's id as a whereArg to prevent SQL injection.
@@ -90,12 +100,13 @@ class DatabaseHelper {
     result.add(work);
     result.add(reference);
     result.add(language);
+    result.add(techmology);
 
     return result;
   }
 
   Future<int> UpdateData(Map<String, dynamic> data, id, dbName) async {
-    final Database db = await initDB();
+    final Database db = await DatabaseHelper._databaseHelper.initDB();
 
     var res = await db.update(dbName, data,
         // Ensure that the Note has a matching id.
@@ -103,7 +114,6 @@ class DatabaseHelper {
         // Pass the Note's id as a whereArg to prevent SQL injection.
         whereArgs: [id]);
 
-    print("the updated id is $res");
     return res;
   }
 

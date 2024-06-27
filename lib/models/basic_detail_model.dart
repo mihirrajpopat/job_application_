@@ -18,7 +18,7 @@ class BasicDetailModel {
   //  = {"mihir": "hello", "mishan": "hello"};
 
   BasicDetailModel(
-      {this.radioGenderValue = " ",
+      {this.radioGenderValue = "Male",
       this.selectedReletionItem = "Single",
       this.selectedStateItem = "Gujrat",
       this.grpId = 1});

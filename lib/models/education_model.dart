@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 class EducationModel {
   List<EducationModelList> educationModelList = [EducationModelList()];
 
+  List<int> deleted = [];
+
   Map<String, dynamic> getEducationModel() {
     Map<String, dynamic> educationModelMap = {
       "board": [],

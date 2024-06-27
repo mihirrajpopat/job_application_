@@ -25,7 +25,7 @@ class TechnologyYouKnow extends StatelessWidget {
                   style: TextStyle(color: Colors.grey, fontSize: 24),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Padding(
@@ -62,7 +62,8 @@ class TechnologyYouKnow extends StatelessWidget {
                                 children: [
                                   SizedBox(
                                     width: 60,
-                                    child: Text("${state.formDataModel.technologyYouKnow.technology[index]}"),
+                                    child:
+                                        Text("${state.formDataModel.technologyModelList.data[index].techonologyName}"),
                                   ),
                                   Container(
                                     width: 30,

@@ -23,15 +23,11 @@ class Checkbox {
   ];
 }
 
-class TechnologyYouKnowModel {
-  List<Checkbox> checkbox = [Checkbox()];
-
-  List<String> technology = ["PHP"];
-}
-
 class TechnologyModel {
   String techonologyName;
   String know;
+  int tid = -1;
+  int id = -1;
 
   TechnologyModel({required this.techonologyName, this.know = ""});
 }
@@ -53,5 +49,34 @@ class TechnologyModelList {
     }
 
     return educationModelMap;
+  }
+
+  setEducationData(List<Map<String, dynamic>> result) {
+    data.removeLast();
+
+    for (int i = 0; i < result.length; i++) {
+      TechnologyModel educationMode = TechnologyModel(techonologyName: result[i]['techonologyName']);
+
+      educationMode.know = result[i]['know'];
+      educationMode.id = result[i]['id'];
+      educationMode.tid = result[i]['tid'];
+
+      data.add(educationMode);
+    }
+  }
+
+  List<Map<String, dynamic>> jsonEducation() {
+    List<Map<String, dynamic>> result = [];
+
+    for (int i = 0; i < data.length; i++) {
+      result.add({
+        "techonologyName": data[i].techonologyName,
+        "know": data[i].know,
+        "tid": data[i].tid,
+        "id": data[i].id,
+      });
+    }
+
+    return result;
   }
 }

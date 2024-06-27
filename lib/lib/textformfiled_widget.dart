@@ -44,7 +44,6 @@ class TextFormFiledWidget extends StatelessWidget {
           children: [
             Expanded(
               child: Container(
-                height: 40,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(6.0),
                   color: Colors.white,
@@ -58,6 +57,7 @@ class TextFormFiledWidget extends StatelessWidget {
                   ],
                 ),
                 child: TextFormField(
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                   maxLength: maxLength,
                   inputFormatters: format,
                   keyboardType: type,

@@ -1,9 +1,9 @@
 class Validation {
   static emailValidate(value) {
-    bool flag = false;
+    bool flag = true;
 
     if (flag == true) {
-      return "";
+      return null;
     }
     if (value == null || value.isEmpty) {
       return "Enter Valid Mail Address";
@@ -19,10 +19,10 @@ class Validation {
   }
 
   static phoneValidate(value) {
-    bool flag = false;
+    bool flag = true;
 
     if (flag == true) {
-      return "";
+      return null;
     }
     if (value == null || value.isEmpty) {
       return "Please Enter Valid Mobile Number";
@@ -37,10 +37,10 @@ class Validation {
   }
 
   static passwordValidate(value) {
-    bool flag = false;
+    bool flag = true;
 
     if (flag == true) {
-      return "";
+      return null;
     }
     if (value == null || value.isEmpty) {
       return "Please make Password Strong";
@@ -56,10 +56,10 @@ class Validation {
   }
 
   static conforimpasswordValidate(value, firstvalue) {
-    bool flag = false;
+    bool flag = true;
 
     if (flag == true) {
-      return "";
+      return null;
     }
     if (value == null || value.isEmpty) {
       return "Password not Matched";
@@ -71,10 +71,10 @@ class Validation {
   }
 
   static requiredFiled(value) {
-    bool flag = false;
+    bool flag = true;
 
     if (flag == true) {
-      return "";
+      return null;
     }
     if (value == null || value.isEmpty) {
       return "please filed above filed";

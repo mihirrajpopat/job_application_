@@ -66,6 +66,10 @@ class HomeAddTechnologyEvent extends HomeEvent {}
 
 class HomeAddWorkExperienceEvent extends HomeEvent {}
 
+class HomeInsertData extends HomeEvent {}
+
+class HomeUpdateData extends HomeEvent {}
+
 class HomeRemoveWorkExperienceEvent extends HomeEvent {
   int index;
 

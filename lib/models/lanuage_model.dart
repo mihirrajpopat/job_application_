@@ -1,5 +1,3 @@
-import 'package:flutter/cupertino.dart';
-
 class LanguageModel {
   Map val = {
     'Read': false,
@@ -19,17 +17,15 @@ class LanuageListModel {
     LanguageModel(languageName: "gujrati"),
   ];
 
+  List<int> deleted = [];
+
   List<Map<String, dynamic>> getLanguageMap() {
     List<Map<String, dynamic>> educationModelMap = [];
 
     for (int i = 0; i < data.length; i++) {
-      print(" get data is ${data[i].val}");
-
       List trueKeys = data[i].val.keys.where((key) => data[i].val[key] == true).toList();
-      print(" get set data is ${data[i].val}");
-      String known = trueKeys.join(",");
 
-      print(" get set data is ${data[i].val}");
+      String known = trueKeys.join(",");
 
       Map<String, dynamic> educationModelMap1 = {
         "Known": known,
@@ -48,9 +44,9 @@ class LanuageListModel {
     for (int i = 0; i < result.length; i++) {
       LanguageModel educationMode = LanguageModel(languageName: result[i]['language']);
 
-      educationMode.val['read'] = result[i]['read'] == 1 ? true : false;
-      educationMode.val['write'] = result[i]['write'] == 1 ? true : false;
-      educationMode.val['speak'] = result[i]['speak'] == 1 ? true : false;
+      educationMode.val['Read'] = result[i]['read'] == 1 ? true : false;
+      educationMode.val['Write'] = result[i]['write'] == 1 ? true : false;
+      educationMode.val['Speak'] = result[i]['speak'] == 1 ? true : false;
       educationMode.id = result[i]['id'];
       educationMode.lid = result[i]['lid'];
 
@@ -62,11 +58,10 @@ class LanuageListModel {
     List<Map<String, dynamic>> result = [];
 
     for (int i = 0; i < data.length; i++) {
-      print("json data is ${data[i].val['read']}");
       result.add({
-        "read": data[i].val['read'] == true ? 1 : 0,
-        "write": data[i].val['write'] == true ? 1 : 0,
-        "speak": data[i].val['speak'] == true ? 1 : 0,
+        "read": data[i].val['Read'] == true ? 1 : 0,
+        "write": data[i].val['Write'] == true ? 1 : 0,
+        "speak": data[i].val['Speak'] == true ? 1 : 0,
         "language": data[i].languageName,
         "id": data[i].id,
         "lid": data[i].lid

@@ -16,12 +16,13 @@ import '../../../database/db_helper.dart';
 import '../../../models/checkbox_item.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
+  DatabaseHelper db = DatabaseHelper.instance;
   TextEditingController languageController = TextEditingController();
   TextEditingController technologyController = TextEditingController();
 
-  HomeBloc() : super(HomeInitialState(formDataModel: FormDataModel(), selectedForm: 8, listingData: [])) {
+  HomeBloc() : super(HomeInitialState(formDataModel: FormDataModel(), selectedForm: 0, listingData: [])) {
     on<HomeInitialEvent>((event, emit) async {
-      emit(HomeInitialState(formDataModel: FormDataModel(), selectedForm: 8, listingData: []));
+      emit(HomeInitialState(formDataModel: FormDataModel(), selectedForm: 0, listingData: []));
     });
 
     on<HomeChangePageEvent>(homeChangePageEvent);
@@ -35,6 +36,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<HomeLanguageCheckboxEvent>(homeLanguageCheckboxEvent);
     on<HomeAddWorkExperienceEvent>(homeAddWorkExperienceEvent);
     on<HomeRemoveWorkExperienceEvent>(homeRemoveWorkExperienceEvent);
+    on<HomeInsertData>(homeInsertData);
+    on<HomeUpdateData>(homeUpdateData);
     on<HomeChangeGenderEventEducation>(homeChangeGenderEventEducation);
     on<HomeAddCandidate>(homeAddCandidate);
     on<HomeListingEvent>(homeListingEvent);
@@ -51,9 +54,86 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         formDataModel: state.formDataModel, selectedForm: state.selectedForm, listingData: state.listingData));
   }
 
-  FutureOr<void> homeEditEvent(HomeEditEvent event, Emitter<HomeState> emit) async {
-    DatabaseHelper db = DatabaseHelper();
+  Future<FutureOr<void>> homeUpdateData(HomeUpdateData event, Emitter<HomeState> emit) async {
+    for (int i = 0; i < state.formDataModel.lanuageListModel.deleted.length; i++) {
+      await db.deleteData(state.formDataModel.lanuageListModel.deleted[i], "languageknown");
+    }
 
+    for (int i = 0; i < state.formDataModel.educationModel.deleted.length; i++) {
+      await db.deleteData(state.formDataModel.educationModel.deleted[i], "educationDetails");
+    }
+
+    Map<String, dynamic> basicDetails = state.formDataModel.basicDetailModel.getBasicDetails();
+
+    Map<String, dynamic> prefrenceData = state.formDataModel.preferedModel.getPreferenceData();
+
+    List<Map<String, dynamic>> language = state.formDataModel.lanuageListModel.jsonLanuage();
+    List<Map<String, dynamic>> referenceList = state.formDataModel.referenceModelList.jsonReference();
+
+    List<Map<String, dynamic>> educationDetailList = state.formDataModel.educationModel.jsonEducation();
+
+    List<Map<String, dynamic>> workDetailList = state.formDataModel.workExperienceList.jsonWork();
+
+    for (int i = 0; i < workDetailList.length; i++) {
+      if (workDetailList[i]['id'] == -1) {
+        workDetailList[i].remove("id");
+        workDetailList[i]['wid'] = state.formDataModel.basicDetailModel.id;
+
+        await db.insertData(workDetailList[i], "workexperience");
+        workDetailList[i]['id'] = -1;
+      } else {
+        await db.UpdateData(workDetailList[i], workDetailList[i]['id'], "workexperience");
+      }
+    }
+
+    for (int i = 0; i < language.length; i++) {
+      if (language[i]['id'] == -1) {
+        language[i].remove("id");
+        language[i]['lid'] = state.formDataModel.basicDetailModel.id;
+
+        await db.insertData(language[i], "languageknown");
+        language[i]['id'] = -1;
+      } else {
+        await db.UpdateData(language[i], language[i]['id'], "languageknown");
+      }
+    }
+
+    for (int i = 0; i < referenceList.length; i++) {
+      if (referenceList[i]['id'] == -1) {
+        referenceList[i].remove("id");
+        referenceList[i]['rid'] = state.formDataModel.basicDetailModel.id;
+
+        await db.insertData(referenceList[i], "referenceDetails");
+        referenceList[i]['id'] = -1;
+      } else {
+        await db.UpdateData(referenceList[i], referenceList[i]['id'], "referenceDetails");
+      }
+    }
+
+    for (int i = 0; i < educationDetailList.length; i++) {
+      if (educationDetailList[i]['id'] == -1) {
+        educationDetailList[i].remove("id");
+        educationDetailList[i]['eid'] = state.formDataModel.basicDetailModel.id;
+
+        await db.insertData(educationDetailList[i], "educationDetails");
+        educationDetailList[i]['id'] = -1;
+      } else {
+        await db.UpdateData(educationDetailList[i], educationDetailList[i]['id'], "educationDetails");
+      }
+    }
+
+    int id = await db.UpdateData(basicDetails, state.formDataModel.basicDetailModel.id, "basicDetails");
+
+    await db.UpdateData(prefrenceData, state.formDataModel.preferedModel.id, "preference");
+    state.formDataModel.technologyModelList.data.add(
+      TechnologyModel(techonologyName: technologyController.text),
+    );
+
+    emit(HomeInitialState(
+        formDataModel: state.formDataModel, selectedForm: state.selectedForm, listingData: state.listingData));
+  }
+
+  FutureOr<void> homeEditEvent(HomeEditEvent event, Emitter<HomeState> emit) async {
     List<List<Map<String, dynamic>>> result = await db.getDataById(event.id);
 
     FormDataModel formDataModel = FormDataModel();
@@ -66,8 +146,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     formDataModel.workExperienceList.setWorkExperienceDetails(result[3]);
     formDataModel.referenceModelList.setWorkExperienceDetails(result[4]);
     formDataModel.lanuageListModel.setLanguageData(result[5]);
+    formDataModel.technologyModelList.setEducationData(result[6]);
 
-    state.selectedForm = 7;
     state.formDataModel = formDataModel;
 
     emit(HomeInitialState(
@@ -82,7 +162,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   FutureOr<void> homeDeleteEvent(HomeDeleteEvent event, Emitter<HomeState> emit) async {
-    DatabaseHelper db = DatabaseHelper();
     await db.deleteData(event.index, "basicDetails");
     List<Map<String, dynamic>> data = await db.getdata();
 
@@ -90,17 +169,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   FutureOr<void> homeListingEvent(HomeListingEvent event, Emitter<HomeState> emit) async {
-    DatabaseHelper db = DatabaseHelper();
     List<Map<String, dynamic>> data = await db.getdata();
-
-    print("listing data is ${data}");
 
     emit(HomeInitialState(formDataModel: state.formDataModel, selectedForm: state.selectedForm, listingData: data));
   }
 
   FutureOr<void> homeChangeGenderEventEducation(HomeChangeGenderEventEducation event, Emitter<HomeState> emit) {
-    // print(" raio valur ${event.radioGenderValue}");
-
     state.formDataModel.technologyModelList.data[event.index].know = event.radioValue;
 
     emit(HomeInitialState(
@@ -108,8 +182,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   FutureOr<void> homeAddCandidate(HomeAddCandidate event, Emitter<HomeState> emit) {
-    // print(" raio valur ${event.radioGenderValue}");
-
     state.formDataModel = FormDataModel();
     state.selectedForm = 0;
 
@@ -117,8 +189,74 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         formDataModel: state.formDataModel, selectedForm: state.selectedForm, listingData: state.listingData));
   }
 
+  Future<FutureOr<void>> homeInsertData(HomeInsertData event, Emitter<HomeState> emit) async {
+    print("hello");
+
+    Map<String, dynamic> basicDetails = state.formDataModel.basicDetailModel.getBasicDetails();
+
+    Map<String, dynamic> prefrenceData = state.formDataModel.preferedModel.getPreferenceData();
+
+    List<Map<String, dynamic>> educationDetailList = state.formDataModel.educationModel.jsonEducation();
+
+    List<Map<String, dynamic>> technology = state.formDataModel.technologyModelList.jsonEducation();
+
+    List<Map<String, dynamic>> language = state.formDataModel.lanuageListModel.jsonLanuage();
+
+    List<Map<String, dynamic>> workDetailList = state.formDataModel.workExperienceList.jsonWork();
+
+    List<Map<String, dynamic>> referenceList = state.formDataModel.referenceModelList.jsonReference();
+
+    int id = await db.insertData(basicDetails, "basicDetails");
+    prefrenceData["pid"] = id;
+
+    for (int i = 0; i < technology.length; i++) {
+      technology[i].remove("id");
+
+      technology[i]['tid'] = id;
+      await db.insertData(technology[i], "technologyknown");
+
+      technology[i]['id'] = -1;
+    }
+    for (int i = 0; i < educationDetailList.length; i++) {
+      educationDetailList[i].remove("id");
+
+      educationDetailList[i]['eid'] = id;
+      await db.insertData(educationDetailList[i], "educationDetails");
+
+      educationDetailList[i]['id'] = -1;
+    }
+
+    for (int i = 0; i < language.length; i++) {
+      language[i].remove("id");
+
+      language[i]['lid'] = id;
+      await db.insertData(language[i], "languageknown");
+
+      language[i]['id'] = -1;
+    }
+
+    for (int i = 0; i < referenceList.length; i++) {
+      referenceList[i].remove("id");
+      referenceList[i]['rid'] = id;
+      await db.insertData(referenceList[i], "referenceDetails");
+      referenceList[i]['id'] = -1;
+    }
+
+    for (int i = 0; i < workDetailList.length; i++) {
+      workDetailList[i].remove("id");
+      workDetailList[i]['wid'] = id;
+      await db.insertData(workDetailList[i], "workexperience");
+
+      workDetailList[i]['id'] = -1;
+    }
+
+    await db.insertData(prefrenceData, "preference");
+
+    emit(HomeInitialState(
+        formDataModel: state.formDataModel, selectedForm: state.selectedForm, listingData: state.listingData));
+  }
+
   FutureOr<void> homeChangePageEvent(HomeChangePageEvent event, Emitter<HomeState> emit) {
-    print("${event.selectedPage}");
     state.selectedForm = event.selectedPage;
 
     emit(HomeInitialState(

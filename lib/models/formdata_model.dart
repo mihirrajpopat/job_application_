@@ -14,7 +14,7 @@ class FormDataModel {
 
   ReferenceModelList referenceModelList = ReferenceModelList();
   WorkExperienceList workExperienceList = WorkExperienceList();
-  TechnologyYouKnowModel technologyYouKnow = TechnologyYouKnowModel();
+
   PreferedModel preferedModel = PreferedModel();
   TechnologyModelList technologyModelList = TechnologyModelList();
 }

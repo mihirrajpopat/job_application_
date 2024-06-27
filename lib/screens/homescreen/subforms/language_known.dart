@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:job_application_block/constants/color.dart';
 
+import '../../../database/db_helper.dart';
 import '../../../lib/textformfiled_widget.dart';
 
 import '../block/home_bloc.dart';
@@ -50,8 +51,13 @@ class _LanguageKnownState extends State<LanguageKnown> {
                               children: [
                                 const Text("Remove"),
                                 IconButton(
-                                  onPressed: () {
+                                  onPressed: () async {
                                     context.read<HomeBloc>().add(HomeRemoveLanguageEvent(index: index));
+
+                                    if (state.formDataModel.lanuageListModel.data[index].id != -1) {
+                                      state.formDataModel.lanuageListModel.deleted
+                                          .add(state.formDataModel.lanuageListModel.data[index].id);
+                                    }
                                   },
                                   icon: const Icon(
                                     Icons.remove_circle_outline,
@@ -114,8 +120,8 @@ class _LanguageKnownState extends State<LanguageKnown> {
                               context: context,
                               builder: (BuildContext context) {
                                 return Container(
-                                  color: Colors.red,
                                   child: AlertDialog(
+                                    backgroundColor: Colors.white,
                                     content: Column(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [

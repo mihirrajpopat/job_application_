@@ -5,11 +5,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:job_application_block/constants/color.dart';
 import 'package:job_application_block/screens/homescreen/block/home_bloc.dart';
 
+import '../../../constants/routes.dart';
 import '../../../database/db_helper.dart';
 import '../../../lib/common_widgets/rounded_image_widget.dart';
 import '../../../lib/common_widgets/svg_image.dart';
 import '../block/home_event.dart';
 import '../block/home_state.dart';
+import '../component/floatingActionButton.dart';
 
 class ListingData extends StatefulWidget {
   const ListingData({super.key});
@@ -21,7 +23,7 @@ class ListingData extends StatefulWidget {
 class _ListingDataState extends State<ListingData> {
   var data;
 
-  DatabaseHelper db = DatabaseHelper();
+  DatabaseHelper db = DatabaseHelper.instance;
 
   @override
   void initState() {
@@ -34,12 +36,65 @@ class _ListingDataState extends State<ListingData> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HomeBloc, HomeState>(
-      builder: (context, state) {
-        return Expanded(
-          child: SingleChildScrollView(
+    return Scaffold(
+      backgroundColor: CommonColor.backgroundColor,
+      floatingActionButton: Floatingactionbutton(),
+      body: BlocBuilder<HomeBloc, HomeState>(
+        builder: (context, state) {
+          return SingleChildScrollView(
             child: Column(
               children: [
+                const SizedBox(
+                  height: 44,
+                ),
+                Container(
+                  color: Colors.white,
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(6.0),
+                              color: Colors.white,
+                              boxShadow: CommonColor.boxShadow),
+                          height: 30,
+                          width: 30,
+                          child: IconButton(
+                            padding: EdgeInsets.zero,
+                            icon: const Align(
+                              alignment: Alignment.center,
+                              child: Icon(Icons.navigate_before),
+                            ),
+                            onPressed: () {},
+                          ),
+                        ),
+                        Text(
+                          "${"Job Application"}",
+                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(6.0), color: Colors.white, boxShadow: const []),
+                          height: 30,
+                          width: 30,
+                          child: IconButton(
+                            padding: EdgeInsets.zero,
+                            icon: SvgImage(
+                              path: "threedotes.svg",
+                              imagecolor: Colors.black,
+                            ),
+                            onPressed: () {},
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
                 const Text(
                   "Candidates",
                   style: TextStyle(fontSize: 18),
@@ -48,6 +103,7 @@ class _ListingDataState extends State<ListingData> {
                   height: 10,
                 ),
                 ListView.builder(
+                  physics: NeverScrollableScrollPhysics(),
                   padding: EdgeInsets.zero,
                   itemCount: state.listingData.length,
                   shrinkWrap: true,
@@ -104,6 +160,7 @@ class _ListingDataState extends State<ListingData> {
                                                   context
                                                       .read<HomeBloc>()
                                                       .add(HomeEditEvent(state.listingData[index]['id']));
+                                                  Navigator.pushNamed(context, Routes.home);
                                                 },
                                                 child: SvgImage(
                                                   path: "eye.svg",
@@ -197,9 +254,9 @@ class _ListingDataState extends State<ListingData> {
                 ),
               ],
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

@@ -29,7 +29,6 @@ class _PreviewScreenState extends State<PreviewScreen> {
 
         List<Map<String, dynamic>> language = state.formDataModel.lanuageListModel.getLanguageMap();
 
-        print(" body data id ${state.formDataModel.lanuageListModel.data[0].val}");
         List<List<String>> languagekey = [];
 
         for (int i = 0; i < language.length; i++) {

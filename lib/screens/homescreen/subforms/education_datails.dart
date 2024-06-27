@@ -45,14 +45,9 @@ class EducationDatails extends StatelessWidget {
                                         const Text("Remove"),
                                         IconButton(
                                           onPressed: () async {
-                                            if (state.formDataModel.educationModel.educationModelList[index].id == -1) {
-                                              print(
-                                                  "${state.formDataModel.educationModel.educationModelList[index].id}");
-                                            } else {
-                                              DatabaseHelper db = DatabaseHelper();
-                                              await db.deleteData(
-                                                  state.formDataModel.educationModel.educationModelList[index].id,
-                                                  "educationDetails");
+                                            if (state.formDataModel.educationModel.educationModelList[index].id != -1) {
+                                              state.formDataModel.educationModel.deleted
+                                                  .add(state.formDataModel.educationModel.educationModelList[index].id);
                                             }
 
                                             BlocProvider.of<HomeBloc>(context)
