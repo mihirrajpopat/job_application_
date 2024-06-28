@@ -37,6 +37,8 @@ class TechnologyModelList {
     TechnologyModel(techonologyName: "Php"),
   ];
 
+  List<int> deleted = [];
+
   Map<String, dynamic> getTopTechnologyMap() {
     Map<String, dynamic> educationModelMap = {
       "techonologyName": [],

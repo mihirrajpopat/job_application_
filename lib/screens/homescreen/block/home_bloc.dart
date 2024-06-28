@@ -31,6 +31,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<HomeChangeGenderEvent>(homeChangeGenderEvent);
     on<HomeAddEducationEvent>(homeAddEducationEvent);
     on<HomeRemoveEducationEvent>(homeRemoveEducationEvent);
+    on<HomeRemoveReferenceEvent>(homeRemoveReferenceEvent);
     on<HomeRemoveLanguageEvent>(homeRemoveLanguageEvent);
     on<HomeAddReferenceEvent>(homeAddReferenceEvent);
     on<HomeAddLanguageEvent>(homeAddLanguageEvent);
@@ -45,6 +46,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<HomeListingEvent>(homeListingEvent);
     on<HomeDeleteEvent>(homeDeleteEvent);
     on<HomeEditEvent>(homeEditEvent);
+    on<HomeRemoveTechnologyEvent>(homeRemoveTechnologyEvent);
   }
 
   FutureOr<void> homeAddTechnologyEvent(HomeAddTechnologyEvent event, Emitter<HomeState> emit) {
@@ -158,6 +160,13 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   FutureOr<void> homeRemoveLanguageEvent(HomeRemoveLanguageEvent event, Emitter<HomeState> emit) async {
     state.formDataModel.lanuageListModel.data.removeAt(event.index);
+
+    emit(HomeInitialState(
+        formDataModel: state.formDataModel, selectedForm: state.selectedForm, listingData: state.listingData));
+  }
+
+  FutureOr<void> homeRemoveTechnologyEvent(HomeRemoveTechnologyEvent event, Emitter<HomeState> emit) async {
+    state.formDataModel.technologyModelList.data.removeAt(event.index);
 
     emit(HomeInitialState(
         formDataModel: state.formDataModel, selectedForm: state.selectedForm, listingData: state.listingData));
@@ -286,6 +295,13 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   FutureOr<void> homeRemoveEducationEvent(HomeRemoveEducationEvent event, Emitter<HomeState> emit) {
     state.formDataModel.educationModel.educationModelList.removeAt(event.index);
+
+    emit(HomeInitialState(
+        formDataModel: state.formDataModel, selectedForm: state.selectedForm, listingData: state.listingData));
+  }
+
+  FutureOr<void> homeRemoveReferenceEvent(HomeRemoveReferenceEvent event, Emitter<HomeState> emit) {
+    state.formDataModel.referenceModelList.data.removeAt(event.index);
 
     emit(HomeInitialState(
         formDataModel: state.formDataModel, selectedForm: state.selectedForm, listingData: state.listingData));

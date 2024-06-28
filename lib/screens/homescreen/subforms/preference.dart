@@ -75,80 +75,124 @@ class Preference extends StatelessWidget {
                         const SizedBox(
                           height: 15,
                         ),
-                        Row(
-                          children: [
-                            const SizedBox(
-                              width: 110,
-                              child: Text("Preferd location"),
-                            ),
-                            Expanded(
-                              child: DropdownButtonFormField<String>(
-                                padding: EdgeInsets.zero,
-                                value: state.formDataModel.preferedModel.selectedPreferedLocation,
-                                onChanged: (String? value) {
-                                  state.formDataModel.basicDetailModel.selectedStateItem = value!;
-                                },
-                                decoration: const InputDecoration(
-                                  filled: true,
-                                  fillColor: Colors.white,
-                                  contentPadding: EdgeInsets.zero,
-                                  border: OutlineInputBorder(borderSide: BorderSide.none),
-                                ),
-                                items: city.map((String value) {
-                                  return DropdownMenuItem(
-                                    value: value,
-                                    child: Row(
-                                      children: [
-                                        const SizedBox(
-                                          width: 10,
-                                        ),
-                                        Text(value),
-                                      ],
-                                    ),
-                                  );
-                                }).toList(),
+                        Container(
+                          height: 40,
+                          child: Row(
+                            children: [
+                              const SizedBox(
+                                width: 110,
+                                child: Text("Preferd location"),
                               ),
-                            ),
-                          ],
+                              Expanded(
+                                child: DropdownButtonFormField<String>(
+                                  padding: EdgeInsets.zero,
+                                  value: state.formDataModel.preferedModel.selectedPreferedLocation,
+                                  onChanged: (String? value) {
+                                    state.formDataModel.basicDetailModel.selectedStateItem = value!;
+                                  },
+                                  decoration: InputDecoration(
+                                    fillColor: Colors.white,
+                                    filled: true,
+                                    hintText: "DD/MM/YYY",
+                                    hintStyle: const TextStyle(color: Color.fromRGBO(0, 0, 0, 0.3)),
+                                    contentPadding: const EdgeInsets.only(left: 20),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(5),
+                                      borderSide: const BorderSide(
+                                        width: 1,
+                                        color: Colors.red,
+                                      ),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(5),
+                                      borderSide: const BorderSide(
+                                        width: 0.5,
+                                        color: Color.fromRGBO(0, 0, 0, 0.2),
+                                      ),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(5),
+                                      borderSide: const BorderSide(width: 0.1, color: Colors.grey),
+                                    ),
+                                  ),
+                                  items: city.map((String value) {
+                                    return DropdownMenuItem(
+                                      value: value,
+                                      child: Row(
+                                        children: [
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+                                          Text(value),
+                                        ],
+                                      ),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                         const SizedBox(
                           height: 15,
                         ),
-                        Row(
-                          children: [
-                            const SizedBox(
-                              width: 110,
-                              child: Text("Department"),
-                            ),
-                            Expanded(
-                              child: DropdownButtonFormField<String>(
-                                padding: EdgeInsets.zero,
-                                value: state.formDataModel.preferedModel.department,
-                                onChanged: (String? value) {
-                                  state.formDataModel.basicDetailModel.selectedReletionItem = value!;
-                                },
-                                decoration: const InputDecoration(
-                                  filled: true,
-                                  fillColor: Colors.white,
-                                  contentPadding: EdgeInsets.zero,
-                                  border: OutlineInputBorder(borderSide: BorderSide.none),
-                                ),
-                                items: relationship.map((String value) {
-                                  return DropdownMenuItem(
-                                    value: value,
-                                    child: Row(
-                                      children: [
-                                        const SizedBox(
-                                          width: 10,
-                                        ),
-                                        Text(value),
-                                      ],
-                                    ),
-                                  );
-                                }).toList(),
+                        SizedBox(
+                          height: 40,
+                          child: Row(
+                            children: [
+                              const SizedBox(
+                                width: 110,
+                                child: Text("Department"),
                               ),
-                            ),
-                          ],
+                              Expanded(
+                                child: DropdownButtonFormField<String>(
+                                  padding: EdgeInsets.zero,
+                                  value: state.formDataModel.preferedModel.department,
+                                  onChanged: (String? value) {
+                                    state.formDataModel.basicDetailModel.selectedReletionItem = value!;
+                                  },
+                                  decoration: InputDecoration(
+                                    fillColor: Colors.white,
+                                    filled: true,
+                                    hintText: "DD/MM/YYY",
+                                    hintStyle: const TextStyle(color: Color.fromRGBO(0, 0, 0, 0.3)),
+                                    contentPadding: const EdgeInsets.only(left: 20),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(5),
+                                      borderSide: const BorderSide(
+                                        width: 1,
+                                        color: Colors.red,
+                                      ),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(5),
+                                      borderSide: const BorderSide(
+                                        width: 0.5,
+                                        color: Color.fromRGBO(0, 0, 0, 0.2),
+                                      ),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(5),
+                                      borderSide: const BorderSide(width: 0.1, color: Colors.grey),
+                                    ),
+                                  ),
+                                  items: relationship.map((String value) {
+                                    return DropdownMenuItem(
+                                      value: value,
+                                      child: Row(
+                                        children: [
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+                                          Text(value),
+                                        ],
+                                      ),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     )

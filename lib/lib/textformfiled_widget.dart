@@ -9,6 +9,8 @@ class TextFormFiledWidget extends StatelessWidget {
   TextInputType? type;
   List<TextInputFormatter> format;
   int maxLength;
+  int minLine;
+  int height;
 
   String? hint;
   final String? Function(String?)? checkValidation;
@@ -25,6 +27,8 @@ class TextFormFiledWidget extends StatelessWidget {
       this.controller,
       this.hint = "",
       this.format = const [],
+      this.minLine = 1,
+      this.height = 40,
       this.maxLength = 150,
       this.type = TextInputType.text});
 
@@ -39,24 +43,15 @@ class TextFormFiledWidget extends StatelessWidget {
         const SizedBox(
           height: 6,
         ),
-        Row(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(6.0),
-                  color: Colors.white,
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Color.fromRGBO(207, 207, 207, 0.9),
-                      offset: Offset(1, 1),
-                      blurRadius: 3,
-                      spreadRadius: 0,
-                    ),
-                  ],
-                ),
+        Container(
+          height: height.toDouble(),
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Expanded(
                 child: TextFormField(
+                  minLines: minLine,
+                  maxLines: 5,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   maxLength: maxLength,
                   inputFormatters: format,
@@ -70,20 +65,20 @@ class TextFormFiledWidget extends StatelessWidget {
                     fillColor: Colors.white,
                     filled: true,
                     hintText: "$hint",
-                    hintStyle: const TextStyle(color: Color.fromRGBO(0, 0, 0, 0.3)),
-                    contentPadding: const EdgeInsets.only(left: 20),
+                    hintStyle: const TextStyle(color: Color.fromRGBO(0, 0, 0, 0.2)),
+                    contentPadding: const EdgeInsets.only(left: 20, top: 10, bottom: 10),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5),
                       borderSide: const BorderSide(
-                        width: 1,
+                        width: 0.5,
                         color: Colors.red,
                       ),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(5),
                       borderSide: const BorderSide(
-                        width: 1,
-                        color: Color.fromRGBO(0, 0, 0, 0.03),
+                        width: 0.5,
+                        color: Color.fromRGBO(0, 0, 0, 0.2),
                       ),
                     ),
                     focusedBorder: OutlineInputBorder(
@@ -94,8 +89,8 @@ class TextFormFiledWidget extends StatelessWidget {
                   validator: checkValidation,
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ],
     );

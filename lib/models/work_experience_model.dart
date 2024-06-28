@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 
 class WorkExperienceList {
   List<WorkExperience> data = [WorkExperience()];
+  List<int> deleted = [];
 
   Map<String, dynamic> getWorkExperienceMap() {
     Map<String, dynamic> educationModelMap = {

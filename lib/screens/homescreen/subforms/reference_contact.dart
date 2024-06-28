@@ -42,6 +42,24 @@ class _ReferenceContactState extends State<ReferenceContact> {
                         itemBuilder: (context, index) {
                           return Column(
                             children: [
+                              Row(
+                                children: [
+                                  const Text("Remove"),
+                                  IconButton(
+                                    onPressed: () {
+                                      BlocProvider.of<HomeBloc>(context).add(HomeRemoveReferenceEvent(index: index));
+
+                                      if (state.formDataModel.referenceModelList.data[index].id != 1) {
+                                        state.formDataModel.referenceModelList.deleted
+                                            .add(state.formDataModel.referenceModelList.data[index].id);
+                                      }
+                                    },
+                                    icon: const Icon(
+                                      Icons.remove_circle_outline,
+                                    ),
+                                  )
+                                ],
+                              ),
                               DottedBorder(
                                 color: const Color.fromRGBO(116, 103, 183, 1),
                                 child: Padding(
@@ -80,39 +98,37 @@ class _ReferenceContactState extends State<ReferenceContact> {
                                   ),
                                 ),
                               ),
-                              const SizedBox(
-                                height: 15,
-                              ),
-                              index == state.formDataModel.referenceModelList.data.length - 1
-                                  ? Row(
-                                      children: [
-                                        const Text("Add"),
-                                        IconButton(
-                                          onPressed: () {
-                                            BlocProvider.of<HomeBloc>(context).add(HomeAddReferenceEvent());
-                                          },
-                                          icon: const Icon(
-                                            Icons.add_circle_outline_outlined,
-                                          ),
-                                        )
-                                      ],
-                                    )
-                                  : Row(
-                                      children: [
-                                        const Text("Remove"),
-                                        IconButton(
-                                          onPressed: () {
-                                            BlocProvider.of<HomeBloc>(context).add(HomeAddEducationEvent());
-                                          },
-                                          icon: const Icon(
-                                            Icons.remove_circle_outline,
-                                          ),
-                                        )
-                                      ],
-                                    )
                             ],
                           );
-                        })
+                        }),
+                    state.formDataModel.referenceModelList.data.length == 0
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text("Add New Reference"),
+                              IconButton(
+                                onPressed: () {
+                                  BlocProvider.of<HomeBloc>(context).add(HomeAddReferenceEvent());
+                                },
+                                icon: const Icon(
+                                  Icons.add_circle_outline_outlined,
+                                ),
+                              )
+                            ],
+                          )
+                        : Row(
+                            children: [
+                              const Text("Add"),
+                              IconButton(
+                                onPressed: () {
+                                  BlocProvider.of<HomeBloc>(context).add(HomeAddReferenceEvent());
+                                },
+                                icon: const Icon(
+                                  Icons.add_circle_outline_outlined,
+                                ),
+                              )
+                            ],
+                          )
                   ],
                 ),
               ),

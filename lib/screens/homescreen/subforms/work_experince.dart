@@ -38,6 +38,25 @@ class WorkExperince extends StatelessWidget {
                         itemBuilder: (context, index) {
                           return Column(
                             children: [
+                              Row(
+                                children: [
+                                  const Text("Remove"),
+                                  IconButton(
+                                    onPressed: () {
+                                      BlocProvider.of<HomeBloc>(context)
+                                          .add(HomeRemoveWorkExperienceEvent(index: index));
+
+                                      if (state.formDataModel.workExperienceList.data[index].id != -1) {
+                                        state.formDataModel.workExperienceList.deleted
+                                            .add(state.formDataModel.workExperienceList.data[index].id);
+                                      }
+                                    },
+                                    icon: const Icon(
+                                      Icons.remove_circle_outline,
+                                    ),
+                                  )
+                                ],
+                              ),
                               DottedBorder(
                                 color: const Color.fromRGBO(116, 103, 183, 1),
                                 child: Padding(
@@ -82,44 +101,47 @@ class WorkExperince extends StatelessWidget {
                                           const SizedBox(
                                             height: 10,
                                           ),
-                                          TextField(
-                                            readOnly: true,
-                                            controller: state.formDataModel.workExperienceList.data[index].fromDate,
-                                            onTap: () async {
-                                              DateTime? date1 = await showDatePicker(
-                                                context: context,
-                                                initialDate: DateTime.now(),
-                                                firstDate: DateTime(2000),
-                                                lastDate: DateTime(2025),
-                                              );
+                                          Container(
+                                            height: 40,
+                                            child: TextField(
+                                              readOnly: true,
+                                              controller: state.formDataModel.workExperienceList.data[index].fromDate,
+                                              onTap: () async {
+                                                DateTime? date1 = await showDatePicker(
+                                                  context: context,
+                                                  initialDate: DateTime.now(),
+                                                  firstDate: DateTime(2000),
+                                                  lastDate: DateTime(2025),
+                                                );
 
-                                              state.formDataModel.workExperienceList.data[index].fromDate.text =
-                                                  DateFormat('MM/dd/yyy').format(date1!);
-                                            },
-                                            decoration: InputDecoration(
-                                              suffixIcon: const Icon(Icons.calendar_month),
-                                              fillColor: Colors.white,
-                                              filled: true,
-                                              hintText: "DD/MM/YYY",
-                                              hintStyle: const TextStyle(color: Color.fromRGBO(0, 0, 0, 0.3)),
-                                              contentPadding: const EdgeInsets.only(left: 20),
-                                              border: OutlineInputBorder(
-                                                borderRadius: BorderRadius.circular(5),
-                                                borderSide: const BorderSide(
-                                                  width: 1,
-                                                  color: Colors.red,
+                                                state.formDataModel.workExperienceList.data[index].fromDate.text =
+                                                    DateFormat('MM/dd/yyy').format(date1!);
+                                              },
+                                              decoration: InputDecoration(
+                                                suffixIcon: const Icon(Icons.calendar_month),
+                                                fillColor: Colors.white,
+                                                filled: true,
+                                                hintText: "DD/MM/YYY",
+                                                hintStyle: const TextStyle(color: Color.fromRGBO(0, 0, 0, 0.3)),
+                                                contentPadding: const EdgeInsets.only(left: 20),
+                                                border: OutlineInputBorder(
+                                                  borderRadius: BorderRadius.circular(5),
+                                                  borderSide: const BorderSide(
+                                                    width: 1,
+                                                    color: Colors.red,
+                                                  ),
                                                 ),
-                                              ),
-                                              enabledBorder: OutlineInputBorder(
-                                                borderRadius: BorderRadius.circular(5),
-                                                borderSide: const BorderSide(
-                                                  width: 1,
-                                                  color: Color.fromRGBO(0, 0, 0, 0.03),
+                                                enabledBorder: OutlineInputBorder(
+                                                  borderRadius: BorderRadius.circular(5),
+                                                  borderSide: const BorderSide(
+                                                    width: 0.5,
+                                                    color: Color.fromRGBO(0, 0, 0, 0.2),
+                                                  ),
                                                 ),
-                                              ),
-                                              focusedBorder: OutlineInputBorder(
-                                                borderRadius: BorderRadius.circular(5),
-                                                borderSide: const BorderSide(width: 0.1, color: Colors.grey),
+                                                focusedBorder: OutlineInputBorder(
+                                                  borderRadius: BorderRadius.circular(5),
+                                                  borderSide: const BorderSide(width: 0.1, color: Colors.grey),
+                                                ),
                                               ),
                                             ),
                                           ),
@@ -135,44 +157,47 @@ class WorkExperince extends StatelessWidget {
                                           const SizedBox(
                                             height: 10,
                                           ),
-                                          TextField(
-                                            readOnly: true,
-                                            controller: state.formDataModel.workExperienceList.data[index].toDate,
-                                            onTap: () async {
-                                              DateTime? date1 = await showDatePicker(
-                                                context: context,
-                                                initialDate: DateTime.now(),
-                                                firstDate: DateTime(2000),
-                                                lastDate: DateTime(2025),
-                                              );
+                                          SizedBox(
+                                            height: 40,
+                                            child: TextField(
+                                              readOnly: true,
+                                              controller: state.formDataModel.workExperienceList.data[index].toDate,
+                                              onTap: () async {
+                                                DateTime? date1 = await showDatePicker(
+                                                  context: context,
+                                                  initialDate: DateTime.now(),
+                                                  firstDate: DateTime(2000),
+                                                  lastDate: DateTime(2025),
+                                                );
 
-                                              state.formDataModel.workExperienceList.data[index].toDate.text =
-                                                  DateFormat('MM/dd/yyy').format(date1!);
-                                            },
-                                            decoration: InputDecoration(
-                                              suffixIcon: Icon(Icons.calendar_month),
-                                              fillColor: Colors.white,
-                                              filled: true,
-                                              hintText: "DD/MM/YYY",
-                                              hintStyle: const TextStyle(color: Color.fromRGBO(0, 0, 0, 0.3)),
-                                              contentPadding: const EdgeInsets.only(left: 20),
-                                              border: OutlineInputBorder(
-                                                borderRadius: BorderRadius.circular(5),
-                                                borderSide: const BorderSide(
-                                                  width: 1,
-                                                  color: Colors.red,
+                                                state.formDataModel.workExperienceList.data[index].toDate.text =
+                                                    DateFormat('MM/dd/yyy').format(date1!);
+                                              },
+                                              decoration: InputDecoration(
+                                                suffixIcon: Icon(Icons.calendar_month),
+                                                fillColor: Colors.white,
+                                                filled: true,
+                                                hintText: "DD/MM/YYY",
+                                                hintStyle: const TextStyle(color: Color.fromRGBO(0, 0, 0, 0.3)),
+                                                contentPadding: const EdgeInsets.only(left: 20),
+                                                border: OutlineInputBorder(
+                                                  borderRadius: BorderRadius.circular(5),
+                                                  borderSide: const BorderSide(
+                                                    width: 1,
+                                                    color: Colors.red,
+                                                  ),
                                                 ),
-                                              ),
-                                              enabledBorder: OutlineInputBorder(
-                                                borderRadius: BorderRadius.circular(5),
-                                                borderSide: const BorderSide(
-                                                  width: 1,
-                                                  color: Color.fromRGBO(0, 0, 0, 0.03),
+                                                enabledBorder: OutlineInputBorder(
+                                                  borderRadius: BorderRadius.circular(5),
+                                                  borderSide: const BorderSide(
+                                                    width: 0.5,
+                                                    color: Color.fromRGBO(0, 0, 0, 0.2),
+                                                  ),
                                                 ),
-                                              ),
-                                              focusedBorder: OutlineInputBorder(
-                                                borderRadius: BorderRadius.circular(5),
-                                                borderSide: const BorderSide(width: 0.1, color: Colors.grey),
+                                                focusedBorder: OutlineInputBorder(
+                                                  borderRadius: BorderRadius.circular(5),
+                                                  borderSide: const BorderSide(width: 0.1, color: Colors.grey),
+                                                ),
                                               ),
                                             ),
                                           ),
@@ -182,40 +207,37 @@ class WorkExperince extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              const SizedBox(
-                                height: 15,
-                              ),
-                              index == state.formDataModel.workExperienceList.data.length - 1
-                                  ? Row(
-                                      children: [
-                                        const Text("Add"),
-                                        IconButton(
-                                          onPressed: () {
-                                            BlocProvider.of<HomeBloc>(context).add(HomeAddWorkExperienceEvent());
-                                          },
-                                          icon: const Icon(
-                                            Icons.add_circle_outline_outlined,
-                                          ),
-                                        )
-                                      ],
-                                    )
-                                  : Row(
-                                      children: [
-                                        const Text("Remove"),
-                                        IconButton(
-                                          onPressed: () {
-                                            BlocProvider.of<HomeBloc>(context)
-                                                .add(HomeRemoveWorkExperienceEvent(index: index));
-                                          },
-                                          icon: const Icon(
-                                            Icons.remove_circle_outline,
-                                          ),
-                                        )
-                                      ],
-                                    )
                             ],
                           );
-                        })
+                        }),
+                    state.formDataModel.workExperienceList.data.length == 0
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text("Add New Work Experience"),
+                              IconButton(
+                                onPressed: () {
+                                  BlocProvider.of<HomeBloc>(context).add(HomeAddWorkExperienceEvent());
+                                },
+                                icon: const Icon(
+                                  Icons.add_circle_outline_outlined,
+                                ),
+                              )
+                            ],
+                          )
+                        : Row(
+                            children: [
+                              const Text("Add"),
+                              IconButton(
+                                onPressed: () {
+                                  BlocProvider.of<HomeBloc>(context).add(HomeAddWorkExperienceEvent());
+                                },
+                                icon: const Icon(
+                                  Icons.add_circle_outline_outlined,
+                                ),
+                              )
+                            ],
+                          )
                   ],
                 ),
               ),

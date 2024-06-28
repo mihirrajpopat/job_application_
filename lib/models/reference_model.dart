@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 
 class ReferenceModelList {
   List<ReferenceModel> data = [ReferenceModel()];
+  List<int> deleted = [];
 
   Map<String, dynamic> getReferenceMap() {
     Map<String, dynamic> educationModelMap = {

@@ -52,12 +52,24 @@ class HomeRemoveEducationEvent extends HomeEvent {
   HomeRemoveEducationEvent({required this.index});
 }
 
+class HomeRemoveReferenceEvent extends HomeEvent {
+  int index;
+
+  HomeRemoveReferenceEvent({required this.index});
+}
+
 class HomeAddReferenceEvent extends HomeEvent {}
 
 class HomeRemoveLanguageEvent extends HomeEvent {
   int index;
 
   HomeRemoveLanguageEvent({required this.index});
+}
+
+class HomeRemoveTechnologyEvent extends HomeEvent {
+  int index;
+
+  HomeRemoveTechnologyEvent({required this.index});
 }
 
 class HomeAddLanguageEvent extends HomeEvent {}

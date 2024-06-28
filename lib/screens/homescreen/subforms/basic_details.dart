@@ -101,70 +101,16 @@ class _BasicDetailsState extends State<BasicDetails> {
                         const SizedBox(
                           height: 10,
                         ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Address",
-                            ),
-                            const SizedBox(
-                              height: 6,
-                            ),
-                            Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Expanded(
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(6.0),
-                                      color: Colors.white,
-                                      boxShadow: const [
-                                        BoxShadow(
-                                          color: Color.fromRGBO(207, 207, 207, 0.9),
-                                          offset: Offset(1, 1),
-                                          blurRadius: 3,
-                                          spreadRadius: 0,
-                                        ),
-                                      ],
-                                    ),
-                                    child: TextFormField(
-                                      maxLines: 6,
-                                      cursorColor: Colors.grey,
-                                      controller: state.formDataModel.basicDetailModel.address,
-                                      textAlign: TextAlign.start,
-                                      decoration: InputDecoration(
-                                        counterText: "",
-                                        fillColor: Colors.white,
-                                        filled: true,
-                                        hintText: "Gaytrinagr Bhavnagar",
-                                        hintStyle: const TextStyle(color: Color.fromRGBO(0, 0, 0, 0.3)),
-                                        contentPadding: const EdgeInsets.only(left: 20),
-                                        border: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(5),
-                                          borderSide: const BorderSide(
-                                            width: 1,
-                                            color: Colors.red,
-                                          ),
-                                        ),
-                                        enabledBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(5),
-                                          borderSide: const BorderSide(
-                                            width: 1,
-                                            color: Color.fromRGBO(0, 0, 0, 0.03),
-                                          ),
-                                        ),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.circular(5),
-                                          borderSide: const BorderSide(width: 1, color: Colors.grey),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
+                        TextFormFiledWidget(
+                          minLine: 4,
+                          height: 100,
+                          controller: state.formDataModel.basicDetailModel.email,
+                          lable: "Address",
+                          hint: "Gaytrinagar",
+                          checkValidation: (value) {
+                            return Validation.emailValidate(value);
+                          },
+                        ), //em
                         const SizedBox(
                           height: 10,
                         ),
@@ -248,18 +194,7 @@ class _BasicDetailsState extends State<BasicDetails> {
                               height: 10,
                             ),
                             Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(6.0),
-                                color: Colors.white,
-                                boxShadow: const [
-                                  BoxShadow(
-                                    color: Color.fromRGBO(207, 207, 207, 0.9),
-                                    offset: Offset(1, 1),
-                                    blurRadius: 3,
-                                    spreadRadius: 0,
-                                  ),
-                                ],
-                              ),
+                              height: 40,
                               child: TextField(
                                 readOnly: true,
                                 controller: state.formDataModel.basicDetailModel.dateOfBirth,
@@ -291,13 +226,13 @@ class _BasicDetailsState extends State<BasicDetails> {
                                   enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(5),
                                     borderSide: const BorderSide(
-                                      width: 1,
-                                      color: Color.fromRGBO(0, 0, 0, 0.03),
+                                      width: 0.5,
+                                      color: Color.fromRGBO(0, 0, 0, 0.2),
                                     ),
                                   ),
                                   focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(5),
-                                    borderSide: const BorderSide(width: 0.1, color: Colors.grey),
+                                    borderSide: BorderSide(width: 0.1, color: Colors.grey),
                                   ),
                                 ),
                               ),
@@ -315,29 +250,35 @@ class _BasicDetailsState extends State<BasicDetails> {
                               height: 6,
                             ),
                             Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(6.0),
-                                color: Colors.white,
-                                boxShadow: const [
-                                  BoxShadow(
-                                    color: Color.fromRGBO(207, 207, 207, 0.9),
-                                    offset: Offset(1, 1),
-                                    blurRadius: 3,
-                                    spreadRadius: 0,
-                                  ),
-                                ],
-                              ),
+                              height: 40,
                               child: DropdownButtonFormField<String>(
                                 padding: EdgeInsets.zero,
                                 value: state.formDataModel.basicDetailModel.selectedStateItem,
                                 onChanged: (String? value) {
                                   state.formDataModel.basicDetailModel.selectedStateItem = value!;
                                 },
-                                decoration: const InputDecoration(
+                                decoration: InputDecoration(
                                   filled: true,
                                   fillColor: Colors.white,
                                   contentPadding: EdgeInsets.zero,
-                                  border: OutlineInputBorder(borderSide: BorderSide.none),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(5),
+                                    borderSide: const BorderSide(
+                                      width: 0.5,
+                                      color: Colors.red,
+                                    ),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(5),
+                                    borderSide: const BorderSide(
+                                      width: 0.5,
+                                      color: Color.fromRGBO(0, 0, 0, 0.2),
+                                    ),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(5),
+                                    borderSide: BorderSide(width: 0.1, color: Colors.grey),
+                                  ),
                                 ),
                                 items: city.map((String value) {
                                   return DropdownMenuItem(
@@ -367,29 +308,35 @@ class _BasicDetailsState extends State<BasicDetails> {
                               height: 10,
                             ),
                             Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(6.0),
-                                color: Colors.white,
-                                boxShadow: const [
-                                  BoxShadow(
-                                    color: Color.fromRGBO(207, 207, 207, 0.9),
-                                    offset: Offset(1, 1),
-                                    blurRadius: 3,
-                                    spreadRadius: 0,
-                                  ),
-                                ],
-                              ),
+                              height: 40,
                               child: DropdownButtonFormField<String>(
                                 padding: EdgeInsets.zero,
                                 value: state.formDataModel.basicDetailModel.selectedReletionItem,
                                 onChanged: (String? value) {
                                   state.formDataModel.basicDetailModel.selectedReletionItem = value!;
                                 },
-                                decoration: const InputDecoration(
+                                decoration: InputDecoration(
                                   filled: true,
                                   fillColor: Colors.white,
                                   contentPadding: EdgeInsets.zero,
-                                  border: OutlineInputBorder(borderSide: BorderSide.none),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(5),
+                                    borderSide: const BorderSide(
+                                      width: 0.5,
+                                      color: Colors.red,
+                                    ),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(5),
+                                    borderSide: BorderSide(width: 0.1, color: Colors.grey),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(5),
+                                    borderSide: const BorderSide(
+                                      width: 0.5,
+                                      color: Color.fromRGBO(0, 0, 0, 0.2),
+                                    ),
+                                  ),
                                 ),
                                 items: relationship.map((String value) {
                                   return DropdownMenuItem(

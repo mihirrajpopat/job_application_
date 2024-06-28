@@ -45,7 +45,12 @@ class TechnologyYouKnow extends StatelessWidget {
                                 const Text("Remove"),
                                 IconButton(
                                   onPressed: () {
-                                    context.read<HomeBloc>().add(HomeRemoveLanguageEvent(index: index));
+                                    context.read<HomeBloc>().add(HomeRemoveTechnologyEvent(index: index));
+
+                                    if (state.formDataModel.technologyModelList.data[index].id != -1) {
+                                      state.formDataModel.technologyModelList.deleted
+                                          .add(state.formDataModel.technologyModelList.data[index].id);
+                                    }
                                   },
                                   icon: const Icon(
                                     Icons.remove_circle_outline,
